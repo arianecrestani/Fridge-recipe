@@ -1,4 +1,5 @@
 // The controllers contain all the logic and functionality of the application.
+
 import UserModel from "../models/userModels.js";
 
 const testingRoute = (request, response) =>{
@@ -28,4 +29,26 @@ const getUser = async(request, response) => {
     response.status(500).json({error: "something went wrong.."})
   }
 }
-export { testingRoute, getUsers, getUser }
+
+const createUser = async (request, response) => {
+  console.log(request.body)
+  response.send(request.body)
+  const newUser = new UserModel ({
+    ...request.body
+    // email: request.body.email,
+    // username: request.body.username,
+    // password: request.body.password
+  });
+  try {
+    const registeredUser = await newUser.save();
+    res.status(200).json({
+      message: "Successfully registered!",
+      newUser: registeredUser
+    })
+
+  }catch (error){
+    console.log(error)
+    response.status(500).json('something went wrong')
+  }
+}
+export { testingRoute, getUsers, getUser, createUser }
