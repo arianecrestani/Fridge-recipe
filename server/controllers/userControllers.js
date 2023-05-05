@@ -22,7 +22,7 @@ const getUser = async(request, response) => {
   const id = request.params.id;
   console.log(id); // will show just "blahblah"
   try {
-    const user = await UserModel.findById(id);
+    const user = await UserModel.findById(id).populate({ ref:"recipes"})
     response.status(200).json(user);
   } catch (error) {
     console.log(error);

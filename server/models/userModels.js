@@ -8,6 +8,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true }
 }, { timestamps: true });
 
+  
+
 const UserModel = mongoose.model("user", userSchema);
 
 export default UserModel

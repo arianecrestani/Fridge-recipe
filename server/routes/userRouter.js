@@ -11,7 +11,6 @@ const userRouter = express.Router()
 userRouter.get("/test",testingRoute)
 userRouter.get("/all", getUsers)
 userRouter.get("/id/:id", getUser)
-
 userRouter.post("/new", createUser)
 //   // request calling from frontend 
 //   // response to the backend

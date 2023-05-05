@@ -3,6 +3,7 @@ import userRouter from './routes/userRouter.js'
 import mongoose from "mongoose";
 import cors from "cors";
 import * as dotenv from "dotenv";
+import recipeRouter from "./routes/recipeRouter.js";
 dotenv.config();
 // hello
 // node js is the entry point for the server
@@ -37,6 +38,7 @@ mongoose
 //   console.log("Server is running on port" + port);
 // });
 app.use("/api/users", userRouter)
+app.use("/api/recipes", recipeRouter)
 
 
 // const sendMenssage = (request, response) => {

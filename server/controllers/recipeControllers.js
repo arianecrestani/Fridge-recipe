@@ -1,45 +1,46 @@
 
-// import UserModel from "../models/userModels.js";
+import RecipeModel from "../models/recipeModels.js";
 
-// const testingRoute = (request, response) =>{
+// const getRecipes = async (request, response) => {
 //   response.send('testing recipe route..')
 // }
 
-// // const getUsers = async (request, response) => {
-// //   try {
-// //     const users = await UserModel.find();
-// //     console.log(users);
-// //     response.status(200).json(users);
-// //   } catch (e) {
-// //     response.status(500).json({error: "something went wrong..."})
-// //     console.log(e);
-// //   }
-// // }
-// const getRecipe = async(request, response) => {
-//   // const params = request.params;
-//   // console.log(params); // should show { id: blahblah }
-//   const id = request.params.id;
-//   console.log(id); // will show just "blahblah"
+const getRecipe = async(request, response) => {
+
+  const id = request.params.id;
+  console.log(id); 
+  try {
+    const recipe = await (await RecipeModel.findById(id)).populate("author")
+
+    response.status(200).json(recipe);
+  } catch (error) {
+    console.log(error);
+    response.status(500).json({error: "something went wrong.."})
+  }
+}
+
+// const getRecipes = async (request, response) => {
 //   try {
-//     const user = await UserModel.findById(id);
-//     response.status(200).json(user);
-//   } catch (error) {
-//     console.log(error);
-//     response.status(500).json({error: "something went wrong.."})
+//     const recipes = await RecipeModel.find();
+//     console.log(recipes);
+//     response.status(200).json(recipes);
+//   } catch (e) {
+//     response.status(500).json({error: "something went wrong..."})
+//     console.log(e);
 //   }
 // }
 
 // const createRecipe = async (request, response) => {
 //   console.log(request.body)
 //   response.send(request.body)
-//   const newRecipe = new UserModel ({
+//   const newRecipe = new RecipeModel ({
 //     ...request.body
 //     // email: request.body.email,
 //     // username: request.body.username,
 //     // password: request.body.password
 //   });
 //   try {
-//     const registeredUser = await newUser.save();
+//     const registeredUser = await newRecipe.save();
 //     res.status(200).json({
 //       message: "Successfully registered!",
 //       newUser: registeredUser
@@ -50,4 +51,4 @@
 //     response.status(500).json('something went wrong')
 //   }
 // }
-// export { testingRoute, getRecipe, createRecipe }
+export {  getRecipe }
