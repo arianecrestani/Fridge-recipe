@@ -40,7 +40,7 @@ const createRecipe = async (request, response) => {
   });
   try {
     const saveRecipe = await newRecipe.save();
-    res.status(200).json({
+    response.status(200).json({
       message: "Successfully recipe saved",
       newRecipe: saveRecipe
     })

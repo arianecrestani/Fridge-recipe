@@ -49,18 +49,50 @@ const createUser = async (request, response) => {
     console.log(error);
     response.status(500).json("something went wrong");
   }
-  // const updateUser = async (request, response) => {
-  //   try {
-  //     const updateUser = await UserModel.findByIdAndUpdate(
-  //       request.params.id,
-  //       request.body,
-  //       { new: true }
-  //     );
-  //     response.status(200).json(updateUser);
-  //   } catch (e) {
-  //     console.log(e);
-  //     response.status(500).send(e.message);
-  //   }
-  // };
 };
-export { testingRoute, getUsers, getUser, createUser };
+const updateUser = async (request, response) => {
+  try {
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      request.params.id,
+      request.body,
+      { new: true }
+    );
+    response.status(200).json(updatedUser);
+  } catch (e) {
+    console.log(e);
+    response.status(500).send(e.message);
+  }
+};
+const login = async (request, response) => {
+  try {
+    const existingUser = await UserModel.findOne({ email: req.body.email });
+    if (!existingUser) {
+      response.status(404).json({ error: "no user found" });
+      return;
+    }
+    if (existingUser) {
+      const verified = await verifyPassword(
+        req.body.password,
+        existingUser.password
+      );
+      if (!verified) {
+        response.status(406).json({ error: "password doesn't match" });
+      }
+      if (verified) {
+        response.status(200).json({
+          verified: true,
+          user: {
+            _id: existingUser._id,
+            username: existingUser.username,
+            pets: existingUser.pets,
+            avatar: existingUser.avatar,
+          },
+        });
+      }
+    }
+  } catch (e) {
+    console.log(e);
+    response.status(500).json({ error: "something went wrong.." });
+  }
+};
+export { testingRoute, getUsers, getUser, createUser, updateUser, login };
