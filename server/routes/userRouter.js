@@ -12,6 +12,7 @@ userRouter.get("/test",testingRoute)
 userRouter.get("/all", getUsers)
 userRouter.get("/id/:id", getUser)
 userRouter.post("/new", createUser)
+// userRouter.post("/update/:id", updateUser)
 //   // request calling from frontend 
 //   // response to the backend
 // userRouter.get("/all", getUsers);
