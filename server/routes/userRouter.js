@@ -1,6 +1,6 @@
 //The routes contain all routes that are created by Express.
 import express from "express";
-import { testingRoute, getUsers, getUser, createUser } from "../controllers/userControllers.js";
+import { testingRoute, getUsers, getUser, createUser, login } from "../controllers/userControllers.js";
 //router to link the users
 //router to link the data
 
@@ -15,7 +15,7 @@ userRouter.post("/new", createUser)
 // userRouter.post("/update/:id", updateUser)
 //   // request calling from frontend 
 //   // response to the backend
-// userRouter.get("/all", getUsers);
+userRouter.post("/login", login);
 // userRouter.get("/id/:id", getUser);
 
 export default userRouter
