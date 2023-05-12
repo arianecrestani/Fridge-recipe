@@ -1,5 +1,6 @@
 // The controllers contain all the logic and functionality of the application.
 import { verifyPassword, encryptPassword } from "../utils/bcrypt.js";
+import { generateToken } from "../utils/jwt.js";
 
 import UserModel from "../models/userModels.js";
 
@@ -78,6 +79,7 @@ const updateUser = async (request, response) => {
 const login = async (req, res) => {
   try {
     const existingUser = await UserModel.findOne({ email: req.body.email });
+
     if (!existingUser) {
       res.status(404).json({ error: "no user found" });
       return;
@@ -87,19 +89,19 @@ const login = async (req, res) => {
         req.body.password,
         existingUser.password
       ); //comparing the password the user entered to the password connected to the user that found in the prev stage
+
       if (!verified) {
         res.status(406).json({ error: "password doesn't match" });
       }
+
       if (verified) {
-        // const token = generateToken(existingUser)
+        const token = generateToken(existingUser);
         res.status(200).json({
           verified: true,
-          // token:token,
+          token: token,
           user: {
             _id: existingUser._id,
             username: existingUser.username,
-            // succulents: existingUser.succulents,
-            // avatar: existingUser.avatar
           },
         });
       }
@@ -109,36 +111,5 @@ const login = async (req, res) => {
     res.status(500).json({ error: "something went wrong.." });
   }
 };
-// const login = async (request, response) => {
-//   try {
-//     const existingUser = await UserModel.findOne({ email: request.body.email });
-//     if (!existingUser) {
-//       response.status(404).json({ error: "no user found" });
-//       return;
-//     }
-//     if (existingUser) {
-//       const verified = await verifyPassword(
-//         request.body.password,
-//         existingUser.password
-//       );
-//       if (!verified) {
-//         response.status(406).json({ error: "password doesn't match" });
-//       }
-//       if (verified) {
-//         response.status(200).json({
-//           verified: true,
-//           user: {
-//             _id: existingUser._id,
-//             username: existingUser.username,
-//             // pets: existingUser.pets,
-//             // avatar: existingUser.avatar,
-//           },
-//         });
-//       }
-//     }
-//   } catch (e) {
-//     console.log(e);
-//     response.status(500).json({ error: "something went wrong login" });
-//   }
-// };
+
 export { testingRoute, getUsers, getUser, createUser, updateUser, login };
