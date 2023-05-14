@@ -1,6 +1,7 @@
 import express from "express";
-import userRouter from './routes/userRouter.js'
+import userRouter from "./routes/userRouter.js";
 import mongoose from "mongoose";
+import { cloudinaryConfig } from "./config/cloudinary.js";
 import cors from "cors";
 import * as dotenv from "dotenv";
 import recipeRouter from "./routes/recipeRouter.js";
@@ -10,39 +11,50 @@ dotenv.config();
 // Http server sends the request to express
 // Express is a framework that controller the requests and response
 // The middleware chooses which function to call and processes that request.
-//For example, we may have a function for login and another for sign up. 
+//For example, we may have a function for login and another for sign up.
 //After that, the middlewares pass the response created by the chosen function to the Node.js HTTP server.
-const app = express();//command initializes a new instance of express
+const app = express(); //command initializes a new instance of express
 const port = process.env.PORT || 9000;
 
+const setMiddlewares = () => {
+  app.use(express.json());
+  app.use(
+    express.urlencoded({
+      extended: true,
+    })
+  );
+  app.use(cors());
+  cloudinaryConfig();
+};
 
-app.use(express.json());
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
-app.use(cors());
+const connectMongoose = () => {
+  mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => {
+      app.listen(port, () => {
+        console.log(
+          "Connection to MongoDB established, and server is running on port " +
+            port
+        );
+      });
+    })
+    .catch((err) => console.log(err));
+};
+const connectRoutes = () => {
+  app.use("/api/users", userRouter);
+  app.use("/api/recipes", recipeRouter);
+};
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    app.listen(port, () => {
-      console.log("Connection to MongoDB established, and server is running on port " + port);
-    });
-  })
-  .catch((err) => console.log(err));
-
+setMiddlewares()
+connectMongoose()
+connectRoutes()
 
 // app.listen(port, () => {
 //   console.log("Server is running on port" + port);
 // });
-app.use("/api/users", userRouter)
-app.use("/api/recipes", recipeRouter)
-
 
 // const sendMenssage = (request, response) => {
-//   // request calling from frontend 
+//   // request calling from frontend
 //   // response to the backend
 //   //request mongo
 //   response.send({ menssage:'hello kangoroos', example:[1, 2, 3, 4]})

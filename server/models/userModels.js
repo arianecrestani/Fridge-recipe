@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   username: String,
   password: { type: String, required: true },
-  recipes: [{ type: mongoose.Types.ObjectId, ref: "recipes"}]
+  recipes: [{ type: mongoose.Types.ObjectId, ref: "recipes"}],
+  avatar: { type: String, default:"https://res.cloudinary.com/dnerptkls/image/upload/v1683976399/user_avatars/placeholder_cuflo5.png"}
 }, { timestamps: true });
 
   

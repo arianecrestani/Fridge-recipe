@@ -1,6 +1,7 @@
 // The controllers contain all the logic and functionality of the application.
 import { verifyPassword, encryptPassword } from "../utils/bcrypt.js";
 import { generateToken } from "../utils/jwt.js";
+import { imageUpload } from "../utils/imageUpload.js";
 
 import UserModel from "../models/userModels.js";
 
@@ -45,11 +46,20 @@ const createUser = async (request, response) => {
   // console.log(request.body);
   const encryptedPassword = await encryptPassword(request.body.password);
 
+
   // response.send(request.body);
+  // const avatar = await imageUpload(request.file, "user_avatars");
+  // console.log("body", req.body)
+  const uploadedImage = await imageUpload(request.file, "user_avatars");
+
+  console.log("user_avatars", uploadedImage)
   const newUser = new UserModel({
     ...request.body,
     password: encryptedPassword,
+    avatar: uploadedImage
   });
+  
+
   try {
     const registeredUser = await newUser.save();
     response.status(200).json({
@@ -62,6 +72,7 @@ const createUser = async (request, response) => {
     response.status(500).json("something went wrong");
   }
 };
+
 const updateUser = async (request, response) => {
   try {
     const updatedUser = await UserModel.findByIdAndUpdate(
