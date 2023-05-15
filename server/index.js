@@ -5,6 +5,8 @@ import { cloudinaryConfig } from "./config/cloudinary.js";
 import cors from "cors";
 import * as dotenv from "dotenv";
 import recipeRouter from "./routes/recipeRouter.js";
+import passportConfig from "./config/passport.js";
+
 dotenv.config();
 // hello
 // node js is the entry point for the server
@@ -25,6 +27,7 @@ const setMiddlewares = () => {
   );
   app.use(cors());
   cloudinaryConfig();
+  passportConfig()
 };
 
 const connectMongoose = () => {

@@ -13,6 +13,22 @@ const testingRoute = (request, response) => {
   response.status(200).json("testing users route..");
 };
 
+// const getActiveUser = async (request, response) => {
+//   response.send('testing', getActiveUser)
+// }
+const getActiveUser = async (req, res) => {
+  res.status(200).json({
+    _id: req.user._id,
+    email: req.user.email,
+    username: req.user.username,
+    avatar: req.user.avatar,
+    sketchs: req.user.sketchs
+    })
+
+  // res.send(req.user)
+}
+
+
 const getUsers = async (request, response) => {
   try {
     const users = await UserModel.find();
@@ -73,19 +89,16 @@ const createUser = async (request, response) => {
   }
 };
 
-const updateUser = async (request, response) => {
-  try {
-    const updatedUser = await UserModel.findByIdAndUpdate(
-      request.params.id,
-      request.body,
-      { new: true }
-    );
-    response.status(200).json(updatedUser);
-  } catch (e) {
-    console.log(e);
-    response.status(500).send(e.message);
-  }
-};
+const updateUser = async(req, res) => {
+  const me = req.user;
+    try {
+      const updatedUser = await UserModel.findByIdAndUpdate(me._id, req.body, { new: true });
+      res.status(200).json(updatedUser);
+    } catch(e) {
+      console.log(e);
+      res.status(500).send(e.message);
+    }
+}
 
 const login = async (req, res) => {
   try {
@@ -123,4 +136,4 @@ const login = async (req, res) => {
   }
 };
 
-export { testingRoute, getUsers, getUser, createUser, updateUser, login };
+export { testingRoute, getUsers, getUser, createUser, updateUser, login, getActiveUser };
