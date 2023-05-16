@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 type Props = {};
 
+
 interface SubmitData {
   email: string;
   password: string;
@@ -38,7 +39,7 @@ const Login = ({}: Props) => {
             placeholder="password"
             onChange={handleChange}
           />
-          <button type="submit">Register me!</button>
+          <button type="submit">Login !</button>
         </form>
       </div>
     </>

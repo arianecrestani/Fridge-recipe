@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 type Props = {};
 
 export const Navbar = (props: Props) => {
-  const { user, login, logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   return (
     <div>
       <h1>Navbar</h1>
