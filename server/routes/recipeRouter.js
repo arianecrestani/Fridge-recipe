@@ -10,7 +10,7 @@ recipeRouter.get("/all", getRecipes)
 recipeRouter.get("/id/:id", getRecipe)
 
 recipeRouter.post("/new", createRecipe)
-recipeRouter.get('/recipe', sendPrompt)
+recipeRouter.post('/recipe', sendPrompt)
 //   // request calling from frontend 
 //   // response to the backend
 // userRouter.get("/all", getUsers);

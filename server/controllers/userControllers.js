@@ -58,14 +58,13 @@ const getUser = async (request, response) => {
   }
 };
 
+
+
+
 const createUser = async (request, response) => {
   // console.log(request.body);
   const encryptedPassword = await encryptPassword(request.body.password);
 
-
-  // response.send(request.body);
-  // const avatar = await imageUpload(request.file, "user_avatars");
-  // console.log("body", req.body)
   const uploadedImage = await imageUpload(request.file, "user_avatars");
 
   console.log("user_avatars", uploadedImage)

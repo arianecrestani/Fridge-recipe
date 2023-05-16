@@ -1,9 +1,11 @@
 import RecipeModel from "../models/recipeModels.js";
 import openAiConfig from "../config/openAiConfig.js";
+import { imageUpload } from "../utils/imageUpload.js";
 
 const sendPrompt = async (request, response) => {
+  console.log(request.body)
   try {
-    const newResult = await openAiConfig("ingredients:  banana, oats, eggs.");
+    const newResult = await openAiConfig(`ingredients:  ${request.body.ingredients}`);
     response.status(200).json(newResult);
   } catch (error) {
     console.log(error);
@@ -36,8 +38,12 @@ const getRecipes = async (request, response) => {
 const createRecipe = async (request, response) => {
   console.log(request.body);
   response.send(request.body);
+  const uploadedImage = await imageUpload(request.file, "user_avatars");
+
+  console.log("user_avatars", uploadedImage)
   const newRecipe = new RecipeModel({
     ...request.body,
+    avatar: uploadedImage
     // email: request.body.email,
     // username: request.body.username,
     // password: request.body.password

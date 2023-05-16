@@ -7,10 +7,10 @@ const recipeSchema = new mongoose.Schema(
     serving: { type: Number, required: true },
     preparationTime: { type: Number, required: true },
     instruction:[{type: String, required:true}],
-    ingredients: {
+    ingredients: [{
       ingredient: { type: String, required: true },
       quantity: { type: Number, required: true },
-    },
+    }],
     nutritional: {
       calories: { type: String, required: true },
       protein: { type: String, required: true },

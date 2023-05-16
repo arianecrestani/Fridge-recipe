@@ -4,7 +4,8 @@ import Login from "./pages/Login";
 import { BrowserRouter } from "react-router-dom";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { Navbar } from "./components/Navbar";
-import Home from "./pages/Home";
+import { Home } from "./pages/Home";
+
 
 function App() {
   return (

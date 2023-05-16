@@ -7,32 +7,32 @@ const aiRole = `
   The answer will be structured using markdown, bold, italic, header, tables, and emojis.
 
   The recipe should be creative
-  don't use this line, it is for test: healthy, confy, fatty, sweet, creative
+  don't use this line, it is for test: healthy, comfy, fatty, sweet, creative
 `;
 
 const outputFormat = `
-  you are going to use the structure below to create your response. 
-  JSON file with the structure by replacing it with the new recipe.
   {
-    "name": " ",
-    "icon": " ",
-    "serving": " " ,
-    "instruction": [{" "}],
-    "preparationTime": " ",
-    "ingredients": [
+    name: " ",
+    icon: " ",
+    serving: " ",
+    instruction: [" "],
+    preparationTime: " ",
+    ingredients: [
       {
-        "ingredient": " ",
-        "quantity": " ",
+        ingredient: " ",
+        quantity: " ",
       },
     ],
-    "nutritional": {
-      "calories":  0,
-      "protein": "g",
-      "carbs": "g",
-    }
-    "foodGroup": ""
-  }
-`;
+    nutritional: [
+      {
+        calories: 0,
+        protein: "g",
+        carbs: "g",
+      },
+    ],
+    foodGroup: "",
+  },
+`
 
 const openAiConfig = async (textPrompt) => {
   const configuration = new Configuration({
@@ -42,7 +42,7 @@ const openAiConfig = async (textPrompt) => {
   console.log("Finding recipe for: " + textPrompt);
   const response = await openai.createCompletion({
     model: "text-davinci-003",
-    prompt: aiRole + textPrompt + outputFormat,
+    prompt: aiRole + textPrompt + outputFormat ,
     temperature: 1,
     max_tokens: 2588,
     top_p: 1,
@@ -51,5 +51,6 @@ const openAiConfig = async (textPrompt) => {
   });
   return response.data;
 };
+
 
 export default openAiConfig;
