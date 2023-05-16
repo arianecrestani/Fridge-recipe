@@ -1,8 +1,14 @@
 import RecipeModel from "../models/recipeModels.js";
+import openAiConfig from "../config/openAiConfig.js";
 
-// const getRecipes = async (request, response) => {
-//   response.send('testing recipe route..')
-// }
+const sendPrompt = async (request, response) => {
+  try {
+    const newResult = await openAiConfig("ingredients:  banana, oats, eggs.");
+    response.status(200).json(newResult);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const getRecipe = async (request, response) => {
   const id = request.params.id;
@@ -47,4 +53,4 @@ const createRecipe = async (request, response) => {
     response.status(500).json("something went wrong");
   }
 };
-export { getRecipe, getRecipes, createRecipe };
+export { getRecipe, getRecipes, createRecipe, sendPrompt };

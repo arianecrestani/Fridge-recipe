@@ -6,6 +6,7 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 import recipeRouter from "./routes/recipeRouter.js";
 import passportConfig from "./config/passport.js";
+import openAiConfig from "./config/openAiConfig.js";
 
 dotenv.config();
 // hello
@@ -27,7 +28,7 @@ const setMiddlewares = () => {
   );
   app.use(cors());
   cloudinaryConfig();
-  passportConfig()
+  passportConfig();
 };
 
 const connectMongoose = () => {
@@ -48,9 +49,9 @@ const connectRoutes = () => {
   app.use("/api/recipes", recipeRouter);
 };
 
-setMiddlewares()
-connectMongoose()
-connectRoutes()
+setMiddlewares();
+connectMongoose();
+connectRoutes();
 
 // app.listen(port, () => {
 //   console.log("Server is running on port" + port);

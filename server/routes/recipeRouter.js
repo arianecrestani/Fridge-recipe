@@ -1,5 +1,5 @@
 import express from "express";
-import { getRecipe, getRecipes, createRecipe } from "../controllers/recipeControllers.js";
+import { getRecipe, getRecipes, createRecipe, sendPrompt } from "../controllers/recipeControllers.js";
 
 
 
@@ -10,6 +10,7 @@ recipeRouter.get("/all", getRecipes)
 recipeRouter.get("/id/:id", getRecipe)
 
 recipeRouter.post("/new", createRecipe)
+recipeRouter.get('/recipe', sendPrompt)
 //   // request calling from frontend 
 //   // response to the backend
 // userRouter.get("/all", getUsers);
