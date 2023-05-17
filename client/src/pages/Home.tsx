@@ -7,6 +7,7 @@ export const Home = () => {
   const [ingredients, setIngredients] = useState([]);
   const [input, setInput] = useState("");
   const [markdown, setMarkdown] = useState ("")
+  const [foodGroup, setFoodGroup] = useState("");
 
   const getApiData = async (e: FormEvent <HTMLFormElement>) => {
     e.preventDefault()
@@ -16,6 +17,7 @@ export const Home = () => {
 
     const urlencoded = new URLSearchParams();
     urlencoded.append("ingredients", input);
+    urlencoded.append("foodGroup", foodGroup);
 
     const requestOptions = {
       method: 'POST',
@@ -35,10 +37,10 @@ export const Home = () => {
       <form onSubmit={getApiData}>
         enter the ingredients
         <textarea onChange={(e) => setInput(e.target.value)}></textarea>
+        <textarea placeholder="Enter the food group" onChange={(e) => setFoodGroup(e.target.value)}></textarea>
         <button type="submit">submit</button>
       </form>
       <ReactMarkdown>{markdown}</ReactMarkdown>
-
     </div>
   );
 };

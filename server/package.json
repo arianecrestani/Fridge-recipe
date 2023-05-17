@@ -29,9 +29,7 @@
     "nodemon": "^2.0.22",
     "openai": "^3.2.1",
     "passport": "^0.6.0",
-    "passport-jwt": "^4.0.1",
-    "postcss": "^8.4.23",
+    "passport-jwt": "^4.0.1"
 
-    "tailwindcss": "^3.3.2"
   }
 }
