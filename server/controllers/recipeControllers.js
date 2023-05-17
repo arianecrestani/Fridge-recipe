@@ -5,7 +5,7 @@ import { imageUpload } from "../utils/imageUpload.js";
 const sendPrompt = async (request, response) => {
   console.log(request.body)
   try {
-    const newResult = await openAiConfig(`ingredients:  ${request.body.ingredients}`);
+    const newResult = await openAiConfig(`ingredients:  ${request.body.ingredients},foodGroup: ${request.body.foodGroup}`);
     response.status(200).json(newResult);
   } catch (error) {
     console.log(error);
