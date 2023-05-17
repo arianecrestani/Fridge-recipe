@@ -1,4 +1,4 @@
-import RecipeModel from "../models/recipeModels.js";
+import MarkdownModel from "../models/recipeModels.js";
 import openAiConfig from "../config/openAiConfig.js";
 import { imageUpload } from "../utils/imageUpload.js";
 
@@ -16,7 +16,7 @@ const getRecipe = async (request, response) => {
   const id = request.params.id;
   console.log(id);
   try {
-    const recipe = await (await RecipeModel.findById(id)).populate("author");
+    const recipe = await (await MarkdownModel.findById(id)).populate("author");
     response.status(200).json(recipe);
   } catch (error) {
     console.log(error);
@@ -26,7 +26,7 @@ const getRecipe = async (request, response) => {
 
 const getRecipes = async (request, response) => {
   try {
-    const recipes = await RecipeModel.find();
+    const recipes = await MarkdownModel.find();
     console.log(recipes);
     response.status(200).json(recipes);
   } catch (e) {
