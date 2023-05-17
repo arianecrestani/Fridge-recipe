@@ -1,5 +1,6 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import ReactMarkdown from 'react-markdown'
+import 'tailwindcss/tailwind.css';
 
 
 

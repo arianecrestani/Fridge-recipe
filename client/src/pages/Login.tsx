@@ -47,6 +47,7 @@ const Login = ({}: Props) => {
               Password
             </label>
             <input
+           
               type="password"
               id="password"
               name="password"

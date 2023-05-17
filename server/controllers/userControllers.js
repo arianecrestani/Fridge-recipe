@@ -74,12 +74,15 @@ const createUser = async (request, response) => {
     avatar: uploadedImage
   });
   
-
+  console.log(request.body, 'something wrong with the body')
   try {
     const registeredUser = await newUser.save();
     response.status(200).json({
       message: "Successfully registered!",
-      newUser: registeredUser,
+      username: registeredUser.username,
+      avatar: registeredUser.avatar,
+      email: registeredUser.email
+
     });
     console.log(registeredUser);
   } catch (error) {
