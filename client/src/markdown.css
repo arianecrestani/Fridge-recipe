@@ -1,0 +1,19 @@
+.markdown {
+  text-align: justify;
+}
+.markdown h1 {
+  font-size: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.markdown h2 {
+  font-size: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.markdown li {
+  padding-left: 1rem;
+  padding-top: 0.5rem;
+}

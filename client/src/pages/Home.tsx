@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import 'tailwindcss/tailwind.css';
+import "tailwindcss/tailwind.css";
 
 export const Home = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -31,8 +31,11 @@ export const Home = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={getApiData} className="flex flex-col items-center space-y-4">
+    <div className="p-12">
+      <form
+        onSubmit={getApiData}
+        className="flex flex-col items-center space-y-4 p-10"
+      >
         <label className="text-lg">Enter the ingredients:</label>
         <textarea
           onChange={(e) => setInput(e.target.value)}
@@ -50,7 +53,13 @@ export const Home = () => {
           Submit
         </button>
       </form>
-      <ReactMarkdown className="mt-4">{markdown}</ReactMarkdown>
+      <div className="flex items-center justify-center h-screen">
+        {markdown && (
+          <div className="p-10 m-12 bg-gray-100 p-4 shadow-lg rounded-lg border border-gray-300 transform rotate-5 inline-block max-w-[80%]">
+            <ReactMarkdown className="markdown">{markdown}</ReactMarkdown>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

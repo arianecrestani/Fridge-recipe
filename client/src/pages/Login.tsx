@@ -26,7 +26,7 @@ const Login = ({}: Props) => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="w-1/3 p-6 bg-gray-200 rounded-lg shadow-lg">
+      <div className="w-1/3 p-6 bg-orange-500 rounded-lg shadow-lg">
         <h1 className="text-3xl font-semibold mb-6 text-center">Login</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -47,7 +47,6 @@ const Login = ({}: Props) => {
               Password
             </label>
             <input
-           
               type="password"
               id="password"
               name="password"

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import 'tailwindcss/tailwind.css';
+import "tailwindcss/tailwind.css";
 type Avatar = string | File;
 
 interface SubmitRegisterData {
@@ -65,32 +65,53 @@ const Register = (props: Props) => {
       <h1 className="text-3xl font-bold mb-8 text-orange-500">Register</h1>
       <form onSubmit={handleSubmit}>
         <input
-        
           type="email"
           name="email"
-          placeholder="email"
+          placeholder="Email"
           onChange={handleChange}
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none mb-4"
         />
         <input
           type="password"
           name="password"
-          placeholder="password"
+          placeholder="Password"
           onChange={handleChange}
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none mb-4"
         />
-        <input name="username" placeholder="username" onChange={handleChange} />
-        <input type="file" name="avatar" onChange={handleFile} />
+        <input
+          name="username"
+          placeholder="Username"
+          onChange={handleChange}
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none mb-4"
+        />
+        <input
+          type="file"
+          name="avatar"
+          onChange={handleFile}
+          className="mb-4"
+        />
         {formData.avatar && (
-          <div>
-            <h3>Avatar Preview:</h3>
+          <div className="flex justify-center mb-4">
             {typeof formData.avatar === "string" ? (
-              <img src={formData.avatar} alt="Avatar"  className="w-40 h-40 rounded-full mb-4"/>
+              <img
+                src={formData.avatar}
+                alt="Avatar"
+                className="w-40 h-40 rounded-full mb-4"
+              />
             ) : (
-              <img src={URL.createObjectURL(formData.avatar)} alt="Avatar"  className="w-40 h-40 rounded-full mb-4" />
+              <img
+                src={URL.createObjectURL(formData.avatar)}
+                alt="Avatar"
+                className="w-40 h-40 rounded-full mb-4"
+              />
             )}
           </div>
         )}
 
-        <button type="submit" style={{ marginRight: "1em" }}>
+        <button
+          type="submit"
+          className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
           Register me!
         </button>
         {loading && <>Loading...</>}
