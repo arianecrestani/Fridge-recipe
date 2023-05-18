@@ -41,11 +41,20 @@ export const Home = () => {
           onChange={(e) => setInput(e.target.value)}
           className="border rounded-lg p-2 w-96"
         ></textarea>
-        <textarea
-          placeholder="Enter the food group"
+        <select
+          value={foodGroup}
           onChange={(e) => setFoodGroup(e.target.value)}
           className="border rounded-lg p-2 w-96"
-        ></textarea>
+        >
+          <option value="">Select a category</option>
+          <option value="healthy">Healthy</option>
+          <option value="comfy">Comfy</option>
+          <option value="fatty">Fatty</option>
+          <option value="sweet">Sweet</option>
+          <option value="creative">Creative</option>
+          <option value="salty">salty</option>
+        </select>
+
         <button
           type="submit"
           className="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-700"
