@@ -1,7 +1,10 @@
-import React from 'react'
+
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+
 
 export const UserArea = () => {
-  return (
-    <div>UserArea</div>
-  )
+  const [isFavorite, setIsFavorite] = useState(false);
+  const { user } = useContext(AuthContext);
+
 }

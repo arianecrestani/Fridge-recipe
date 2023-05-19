@@ -25,7 +25,7 @@ const Login = ({}: Props) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100 h-screen">
+    <div className="flex flex-col items-center justify-center p-28">
       <h1 className="text-3xl font-bold mb-8 text-orange-500">Login</h1>
       <form onSubmit={handleSubmit}>
         <input

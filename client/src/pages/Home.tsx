@@ -1,5 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import ReactMarkdown from "react-markdown";
+
 import "tailwindcss/tailwind.css";
 
 export const Home = () => {
@@ -10,6 +11,11 @@ export const Home = () => {
 
   const getApiData = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+
+    // Wait for the animation to complete
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     const testUrl = `http://localhost:9000/api/recipes/recipe`;
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -28,13 +34,14 @@ export const Home = () => {
     const result = await response.json();
     console.log(result);
     setMarkdown(result.choices[0].text);
+
   };
 
   return (
     <div className="p-12">
       <form
         onSubmit={getApiData}
-        className="flex flex-col items-center space-y-4 p-10"
+        className="flex flex-col items-center space-y-4 p-4"
       >
         <label className="text-lg">Enter the ingredients:</label>
         <textarea
@@ -57,7 +64,7 @@ export const Home = () => {
 
         <button
           type="submit"
-          className="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-700"
+          className="w-36 p-2 border border-gray-300 rounded focus:outline-none mb-4"
         >
           Submit
         </button>
