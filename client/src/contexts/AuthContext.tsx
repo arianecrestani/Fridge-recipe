@@ -44,6 +44,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<Error | null>(null);
 
   const login = async (email: string, password: string) => {
+
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
     const urlencoded = new URLSearchParams();
@@ -66,7 +67,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
           setUser(result.user);
           console.log(result.user);
           localStorage.setItem("token", result.token);
-          localStorage.setItem("my name", "emily");
+          localStorage.setItem("my name", "Doron");
         }
         console.log(result);
       } else {

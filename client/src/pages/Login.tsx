@@ -1,5 +1,12 @@
-import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
@@ -14,6 +21,7 @@ const Login = ({}: Props) => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...inputData, [e.target.name]: e.target.value });
@@ -22,6 +30,7 @@ const Login = ({}: Props) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     login(inputData.email, inputData.password);
+    navigate("/");
   };
 
   return (
