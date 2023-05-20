@@ -4,10 +4,9 @@ import { generateToken } from "../utils/jwt.js";
 import { imageUpload } from "../utils/imageUpload.js";
 
 import UserModel from "../models/userModels.js";
+import MarkdownModel from "../models/recipeModels.js";
 
 const testingRoute = (request, response) => {
-  const { ingredients } = request;
-
   console.log("request.body", request.body);
   console.log("request.body", request);
   response.status(200).json("testing users route..");
@@ -22,28 +21,10 @@ const getActiveUser = async (req, res) => {
     email: req.user.email,
     username: req.user.username,
     avatar: req.user.avatar,
-    sketchs: req.user.sketchs
-    })
-
-  // res.send(req.user)
-}
-
-
-const getUsers = async (request, response) => {
-  try {
-    const users = await UserModel.find();
-    if (users.length === 0) {
-      response.status(200).json("sorry nobody here");
-    } else {
-      response.status(200).json("sorry nobody here");
-    }
-    console.log(users);
-    response.status(200).json(users);
-  } catch (e) {
-    response.status(500).json({ error: "something went wrong..." });
-    console.log(e);
-  }
+    recipes: req.user.recipes,
+  });
 };
+
 const getUser = async (request, response) => {
   // const params = request.params;
   // console.log(params); // should show { id: blahblah }
@@ -58,31 +39,27 @@ const getUser = async (request, response) => {
   }
 };
 
-
-
-
 const createUser = async (request, response) => {
   // console.log(request.body);
   const encryptedPassword = await encryptPassword(request.body.password);
 
   const uploadedImage = await imageUpload(request.file, "user_avatars");
 
-  console.log("user_avatars", uploadedImage)
+  console.log("user_avatars", uploadedImage);
   const newUser = new UserModel({
     ...request.body,
     password: encryptedPassword,
-    avatar: uploadedImage
+    avatar: uploadedImage,
   });
-  
-  console.log(request.body, 'something wrong with the body')
+
+  console.log(request.body, "something wrong with the body");
   try {
     const registeredUser = await newUser.save();
     response.status(200).json({
       message: "Successfully registered!",
       username: registeredUser.username,
       avatar: registeredUser.avatar,
-      email: registeredUser.email
-
+      email: registeredUser.email,
     });
     console.log(registeredUser);
   } catch (error) {
@@ -90,17 +67,50 @@ const createUser = async (request, response) => {
     response.status(500).json("something went wrong");
   }
 };
+const addOrRemoveFavorite = async (req, res) => {
+  const userId = req.user._id;
+  const { recipe } = req.query;
+  console.log("Recipe params:", recipe);
+  console.log("Params: ", req.query);
 
-const updateUser = async(req, res) => {
-  const me = req.user;
-    try {
-      const updatedUser = await UserModel.findByIdAndUpdate(me._id, req.body, { new: true });
-      res.status(200).json(updatedUser);
-    } catch(e) {
-      console.log(e);
-      res.status(500).send(e.message);
+  try {
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
-}
+
+    const markdownRecipe = new MarkdownModel({
+      markdown: recipe,
+      author: user,
+      foodCategorie: "test",
+    });
+    console.log("Recipe: ", markdownRecipe)
+    const savedRecipe = await markdownRecipe.save();
+    // Add the recipe to favorites
+    user.recipes.push(savedRecipe._id);
+    await user.save();
+    res.status(200).json({ msg: "Recipe added to favorites", user });
+  } catch (e) {
+    console.log(e);
+    res
+      .status(500)
+      .json({ error: "Something went wrong while updating favorites." });
+  }
+};
+
+const updateUser = async (req, res) => {
+  const me = req.user;
+  try {
+    const updatedUser = await UserModel.findByIdAndUpdate(me._id, req.body, {
+      new: true,
+    });
+    res.status(200).json(updatedUser);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send(e.message);
+  }
+};
 
 const login = async (req, res) => {
   try {
@@ -138,4 +148,12 @@ const login = async (req, res) => {
   }
 };
 
-export { testingRoute, getUsers, getUser, createUser, updateUser, login, getActiveUser };
+export {
+  testingRoute,
+  getUser,
+  createUser,
+  updateUser,
+  login,
+  getActiveUser,
+  addOrRemoveFavorite,
+};
