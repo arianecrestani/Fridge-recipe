@@ -4,10 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 import "tailwindcss/tailwind.css";
-
-interface Markdown {
-  recipe: string;
-}
+import { SaveFavorites } from "../components/SaveFavorites";
 
 export const Home = () => {
   const [input, setInput] = useState("");
@@ -35,40 +32,6 @@ export const Home = () => {
     const result = await response.json();
     console.log(result);
     setMarkdown(result.choices[0].text);
-  };
-
-  const saveFavorite = async () => {
-    if (!markdown) {
-      return;
-    }
-
-    const favoriteUrl = `http://localhost:9000/api/users/favorites`;
-
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-    const tokenValue = localStorage.getItem("token");
-    console.log("token: ", tokenValue);
-
-    myHeaders.append("Authorization", `Bearer ${tokenValue}`);
-
-    const urlencoded = new URLSearchParams();
-    urlencoded.append("recipe", markdown);
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: urlencoded,
-    };
-
-    try {
-      const response = await fetch(favoriteUrl, requestOptions);
-
-      const result = await response.json();
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -108,11 +71,7 @@ export const Home = () => {
           {markdown && (
             <>
               <div className="p-10 m-12 bg-gray-100 p-4 shadow-lg rounded-lg border border-gray-300 transform rotate-5 inline-block max-w-[80%]">
-                <FontAwesomeIcon
-                  onClick={saveFavorite}
-                  icon={faHeart}
-                  className="mr-2"
-                />
+                <SaveFavorites markdown={markdown} />
                 <ReactMarkdown className="markdown">{markdown}</ReactMarkdown>
               </div>
             </>

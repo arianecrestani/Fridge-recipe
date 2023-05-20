@@ -21,8 +21,6 @@ interface SubmitRegisterData {
 type Props = {};
 
 const Register = (props: Props) => {
-
-
   const [formData, setFormData] = useState<SubmitRegisterData>({
     email: "",
     password: "",
@@ -31,7 +29,6 @@ const Register = (props: Props) => {
   });
   const [loading, setLoading] = useState(false);
   const { user } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -67,7 +64,6 @@ const Register = (props: Props) => {
       console.log(result);
       alert("Success! Check console.");
       setLoading(false);
-
     } catch (error) {
       console.log(error);
       alert("Something went wrong - check console");
@@ -96,6 +92,7 @@ const Register = (props: Props) => {
           )}
         </div>
       )}
+
       <div className="flex flex-col  text-center">
         <h1 className="text-3xl font-bold mb-8 text-orange-500">Register</h1>
         <form onSubmit={handleSubmit}>
