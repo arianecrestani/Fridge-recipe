@@ -25,12 +25,8 @@ userRouter.get("/id/:id", getUser);
 userRouter.get("/active", jwtAuth, getActiveUser);
 userRouter.post("/favorites", jwtAuth, addOrRemoveFavorite);
 
-// userRouter.post("/update/:id", updateUser)
-//   // request calling from frontend
-//   // response to the backend
 userRouter.post("/new", multerUpload.single("avatar"), createUser);
 userRouter.post("/login", login);
 userRouter.post("/update", jwtAuth, updateUser);
-// userRouter.get("/id/:id", getUser);
 
 export default userRouter;

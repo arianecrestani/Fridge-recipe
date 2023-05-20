@@ -31,7 +31,7 @@ const getUser = async (request, response) => {
   const id = request.params.id;
   console.log(id); // will show just "blahblah"
   try {
-    const user = await UserModel.findById(id).populate("recipes");
+    const user = await UserModel.findById(id).populate({ ref: "recipes" });
     response.status(200).json(user);
   } catch (error) {
     console.log(error);
@@ -69,9 +69,10 @@ const createUser = async (request, response) => {
 };
 const addOrRemoveFavorite = async (req, res) => {
   const userId = req.user._id;
-  const { recipe } = req.query;
+  const { recipe } = req.body;
+
   console.log("Recipe params:", recipe);
-  console.log("Params: ", req.query);
+  console.log("Params: ", req);
 
   try {
     const user = await UserModel.findById(userId);
@@ -85,17 +86,17 @@ const addOrRemoveFavorite = async (req, res) => {
       author: user,
       foodCategorie: "test",
     });
-    console.log("Recipe: ", markdownRecipe)
+    console.log("Recipe: ", markdownRecipe);
     const savedRecipe = await markdownRecipe.save();
     // Add the recipe to favorites
     user.recipes.push(savedRecipe._id);
     await user.save();
-    res.status(200).json({ msg: "Recipe added to favorites", user });
+    res.status(200).json({ msg: "Recipe added to favorites", savedRecipe });
   } catch (e) {
     console.log(e);
     res
       .status(500)
-      .json({ error: "Something went wrong while updating favorites." });
+      .json({ error: "Something went wrong while updating favorites.", e });
   }
 };
 

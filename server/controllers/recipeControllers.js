@@ -1,11 +1,12 @@
 import MarkdownModel from "../models/recipeModels.js";
 import openAiConfig from "../config/openAiConfig.js";
 
-
 const sendPrompt = async (request, response) => {
-  console.log(request.body)
+  console.log(request.body);
   try {
-    const newResult = await openAiConfig(`ingredients:  ${request.body.ingredients},foodGroup: ${request.body.foodGroup}`);
+    const newResult = await openAiConfig(
+      `ingredients:  ${request.body.ingredients},foodGroup: ${request.body.foodGroup}`
+    );
     response.status(200).json(newResult);
   } catch (error) {
     console.log(error);
@@ -24,24 +25,13 @@ const getRecipe = async (request, response) => {
   }
 };
 
-// const getRecipes = async (request, response) => {
-//   try {
-//     const recipes = await MarkdownModel.find();
-//     console.log(recipes);
-//     response.status(200).json(recipes);
-//   } catch (e) {
-//     response.status(500).json({ error: "something went wrong..." });
-//     console.log(e);
-//   }
-// };
-
 const createRecipe = async (request, response) => {
   console.log(request.body);
   response.send(request.body);
 
   const newRecipe = new RecipeModel({
     ...request.body,
-
+    recipes: [],
   });
   try {
     const saveRecipe = await newRecipe.save();
@@ -54,4 +44,5 @@ const createRecipe = async (request, response) => {
     response.status(500).json("something went wrong");
   }
 };
+
 export { getRecipe, createRecipe, sendPrompt };
