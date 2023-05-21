@@ -75,7 +75,7 @@ const Register = (props: Props) => {
 
   return (
     <div className="flex items-center justify-center p-28">
-      {formData.avatar && (
+      {user && formData.avatar && (
         <div className="flex-shrink-0 mr-8">
           {typeof formData.avatar === "string" ? (
             <img

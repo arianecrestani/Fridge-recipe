@@ -1,14 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FunctionComponent } from "react";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import React, { useState } from "react";
 
 interface SaveFavoriteButtonProps {
   markdown: string;
+  foodCategorie: string
 }
 
 export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
-  markdown,
+  markdown, foodCategorie
 }) => {
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]); // move this inside the component function
+
   const saveFavorite = async () => {
     if (!markdown) {
       return;
@@ -26,6 +30,7 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
 
     const urlencoded = new URLSearchParams();
     urlencoded.append("recipe", markdown);
+    urlencoded.append("foodCategorie", foodCategorie);
 
     const requestOptions = {
       method: "POST",
@@ -33,16 +38,20 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
       body: urlencoded,
     };
 
-    try {
+    try { // add try block
       const response = await fetch(favoriteUrl, requestOptions);
-
       const result = await response.json();
-      console.log(result);
-    } catch (error) {
-      console.log(error);
+      console.log(result); // log result
+      // do something with result
+    } catch (error) { // add catch block
+      console.log(error); // log error
+      // handle error
     }
   };
+
   return (
     <FontAwesomeIcon onClick={saveFavorite} icon={faHeart} className="mr-2" />
   );
 };
+//If you are currently receiving an array of recipe IDs instead of the complete recipe data, 
+//you will need to make an additional API request to fetch the complete recipe information for each ID.

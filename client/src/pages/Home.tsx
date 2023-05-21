@@ -71,7 +71,7 @@ export const Home = () => {
           {markdown && (
             <>
               <div className="p-10 m-12 bg-gray-100 p-4 shadow-lg rounded-lg border border-gray-300 transform rotate-5 inline-block max-w-[80%]">
-                <SaveFavorites markdown={markdown} />
+                <SaveFavorites markdown={markdown } foodCategorie={foodGroup} />
                 <ReactMarkdown className="markdown">{markdown}</ReactMarkdown>
               </div>
             </>
