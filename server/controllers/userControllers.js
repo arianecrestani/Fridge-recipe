@@ -12,8 +12,8 @@ const testingRoute = (request, response) => {
   response.status(200).json("testing users route..");
 };
 
-// const getActiveUser = async (request, response) => {
-//   response.send('testing', getActiveUser)
+// const getUser = async (request, response) => {
+//   response.send('testing get user ', getUser)
 // }
 const getActiveUser = async (req, res) => {
   res.status(200).json({
@@ -23,20 +23,6 @@ const getActiveUser = async (req, res) => {
     avatar: req.user.avatar,
     recipes: req.user.recipes,
   });
-};
-
-const getUser = async (request, response) => {
-  // const params = request.params;
-  // console.log(params); // should show { id: blahblah }
-  const id = request.params.id;
-  console.log(id); // will show just "blahblah"
-  try {
-    const user = await UserModel.findById(id).populate({ ref: "recipes" });
-    response.status(200).json(user);
-  } catch (error) {
-    console.log(error);
-    response.status(500).json({ error: "something went wrong.." });
-  }
 };
 
 const createUser = async (request, response) => {
@@ -67,49 +53,68 @@ const createUser = async (request, response) => {
     response.status(500).json("something went wrong");
   }
 };
+// A function to add or remove a recipe from the user's favorites
 const addOrRemoveFavorite = async (req, res) => {
+  // Get the user id and the recipe from the request
   const userId = req.user._id;
-  const { recipe } = req.body;
+  const { recipe, foodCategorie } = req.body;
 
+  // Log the recipe and the request for debugging
   console.log("Recipe params:", recipe);
   console.log("Params: ", req);
 
   try {
-    const user = await UserModel.findById(userId);
+    // Find the user by id and populate their recipes
+    const user = await UserModel.findById(userId).populate({
+      path: "recipes",
+      ref: "Recipe",
+    });
 
+    // If the user is not found, send a 404 error
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
+    // Create a new markdown model for the recipe
     const markdownRecipe = new MarkdownModel({
       markdown: recipe,
       author: user,
-      foodCategorie: "test",
+      foodCategorie: foodCategorie,
     });
+
+    // Log the recipe for debugging
     console.log("Recipe: ", markdownRecipe);
+
+    // Save the recipe to the database
     const savedRecipe = await markdownRecipe.save();
-    // Add the recipe to favorites
-    user.recipes.push(savedRecipe._id);
-    await user.save();
-    res.status(200).json({ msg: "Recipe added to favorites", savedRecipe });
+
+    // Check if the recipe is already in the user's favorites
+    const isFavorite = user.recipes.some(
+      (r) => r._id.toString() === savedRecipe._id.toString()
+    );
+
+    // If it is, remove it from the favorites
+    if (isFavorite) {
+      user.recipes = user.recipes.filter(
+        (r) => r._id.toString() !== savedRecipe._id.toString()
+      );
+      await user.save();
+      res
+        .status(200)
+        .json({ msg: "Recipe removed from favorites", savedRecipe });
+    }
+    // If it is not, add it to the favorites
+    else {
+      user.recipes.push(savedRecipe._id);
+      await user.save();
+      res.status(200).json({ msg: "Recipe added to favorites", savedRecipe });
+    }
   } catch (e) {
+    // If there is an error, log it and send a 500 error
     console.log(e);
     res
       .status(500)
       .json({ error: "Something went wrong while updating favorites.", e });
-  }
-};
-
-const updateUser = async (req, res) => {
-  const me = req.user;
-  try {
-    const updatedUser = await UserModel.findByIdAndUpdate(me._id, req.body, {
-      new: true,
-    });
-    res.status(200).json(updatedUser);
-  } catch (e) {
-    console.log(e);
-    res.status(500).send(e.message);
   }
 };
 
@@ -149,12 +154,4 @@ const login = async (req, res) => {
   }
 };
 
-export {
-  testingRoute,
-  getUser,
-  createUser,
-  updateUser,
-  login,
-  getActiveUser,
-  addOrRemoveFavorite,
-};
+export { testingRoute, createUser, login, getActiveUser, addOrRemoveFavorite };

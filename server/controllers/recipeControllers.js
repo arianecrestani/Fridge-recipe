@@ -13,15 +13,20 @@ const sendPrompt = async (request, response) => {
   }
 };
 
-const getRecipe = async (request, response) => {
-  const id = request.params.id;
-  console.log(id);
+const getRecipesForLoggedUser = async (request, response) => {
+  const userId = request.user._id;
+
   try {
-    const recipe = await (await MarkdownModel.findById(id)).populate("author");
-    response.status(200).json(recipe);
+    const recipes = await MarkdownModel.where({ author: userId });
+
+    if (!recipes) {
+      return response.status(404).json({ error: "Recipe not found" });
+    }
+
+    response.status(200).json(recipes);
   } catch (error) {
     console.log(error);
-    response.status(500).json({ error: "something went wrong.." });
+    response.status(500).json({ error: "something went wrong..", error });
   }
 };
 
@@ -45,4 +50,4 @@ const createRecipe = async (request, response) => {
   }
 };
 
-export { getRecipe, createRecipe, sendPrompt };
+export { getRecipesForLoggedUser, createRecipe, sendPrompt };
