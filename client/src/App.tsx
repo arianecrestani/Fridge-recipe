@@ -10,6 +10,7 @@ import { UserArea } from "./pages/UserArea";
 
 
 
+
 function App() {
   return (
     <div className="App">
@@ -20,7 +21,7 @@ function App() {
             <Route path="/" element={<Home />}/>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            {/* <Route path="/user" element={<UserArea />} /> */}
+            <Route path="/user" element={<UserArea />} />
           </Routes>
         </BrowserRouter>
       </AuthContextProvider>

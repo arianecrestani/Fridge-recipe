@@ -1,33 +1,58 @@
-import React, { useState, useContext } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 
-type Props = {};
+interface Props {}
+// Your user page component
+interface Favorite {
+  _id: string;
+  markdown: string;
+  author: string;
+  foodCategorie: string;
+  __v: number;
+}
+export const UserArea = ({}: Props) => {
+  const [favorites, setFavorites] = useState<Favorite[]>([]);
 
-export const UserArea = (props: Props) => {
-  // const favoriteUrl = `http://localhost:9000/api/users/favorites`;
+  console.log("loading component");
+  const getApiData = async () => {
+    const testUrl = `http://localhost:9000/api/users/favorites`;
 
-  // const myHeaders = new Headers();
-  // myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    const myHeaders = new Headers();
 
-  // const tokenValue = localStorage.getItem("token");
-  // console.log("token: ", tokenValue);
+    const tokenValue = localStorage.getItem("token");
+    console.log("token: ", tokenValue);
 
-  // myHeaders.append("Authorization", `Bearer ${tokenValue}`);
+    myHeaders.append("Authorization", `Bearer ${tokenValue}`);
 
-  // const urlencoded = new URLSearchParams();
-  // urlencoded.append("recipe", markdown);
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    console.log("fetching recipes");
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+    };
 
-  // const requestOptions = {
-  //   method: "POST",
-  //   headers: myHeaders,
-  //   body: urlencoded,
-  // };
+    const response = await fetch(testUrl, requestOptions);
+    const result = await response.json();
+    console.log(result);
+    setFavorites(result);
+  };
 
-  // try {
-  //   const response = await fetch(favoriteUrl, requestOptions);
+  useEffect(() => {
+    getApiData();
+  }, []);
 
-  //   const result = await response.json();
-  //   console.log(result);
-  // } catch (error) {
-  //   console.log(error);
-  // }
+  return (
+    <div>
+    {favorites && (
+      <>
+        {favorites.map((favorite) => (
+          <div key={favorite._id}>
+            <p>Markdown: {favorite.markdown}</p>
+            <p>Author: {favorite.author}</p>
+            <p>Food Category: {favorite.foodCategorie}</p>
+          </div>
+        ))}
+      </>
+    )}
+  </div>
+  );
 };

@@ -11,7 +11,7 @@ interface SaveFavoriteButtonProps {
 export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
   markdown, foodCategorie
 }) => {
-  const [favoriteRecipes, setFavoriteRecipes] = useState([]); // move this inside the component function
+  // const [favoriteRecipes, setFavoriteRecipes] = useState([]); // move this inside the component function
 
   const saveFavorite = async () => {
     if (!markdown) {
@@ -38,14 +38,14 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
       body: urlencoded,
     };
 
-    try { // add try block
+    try { 
       const response = await fetch(favoriteUrl, requestOptions);
       const result = await response.json();
-      console.log(result); // log result
-      // do something with result
-    } catch (error) { // add catch block
-      console.log(error); // log error
-      // handle error
+      console.log(result); 
+     
+    } catch (error) { 
+      console.log(error); 
+  
     }
   };
 
