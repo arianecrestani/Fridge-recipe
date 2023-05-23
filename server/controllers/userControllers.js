@@ -12,9 +12,37 @@ const testingRoute = (request, response) => {
   response.status(200).json("testing users route..");
 };
 
-// const getUser = async (request, response) => {
-//   response.send('testing get user ', getUser)
-// }
+const removeFavorite = async (req, res) => {
+  const userId = req.user._id;
+  const { recipeId } = req.params;
+  console.log(req.params, "removeFav");
+  const trasformRecipeId = recipeId.toString()
+
+  try {
+    const findUserAndUpdateFavorite = await UserModel.findByIdAndUpdate(
+      userId,
+      { $pull: { recipes: trasformRecipeId} },
+      { new: true }
+    );
+
+    console.log(
+      "User's favorites array updated successfully:",
+      findUserAndUpdateFavorite
+    );
+
+    res.status(200).json({
+      msg: "Successfully updated user favorites",
+      "the-user": findUserAndUpdateFavorite,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Something went wrong with updating the user's favorites array",
+    });
+  }
+};
+
+
 const getActiveUser = async (req, res) => {
   res.status(200).json({
     _id: req.user._id,
@@ -26,35 +54,42 @@ const getActiveUser = async (req, res) => {
 };
 
 const createUser = async (request, response) => {
-  // console.log(request.body);
-  const encryptedPassword = await encryptPassword(request.body.password);
-
-  const uploadedImage = await imageUpload(request.file, "user_avatars");
-
-  console.log("user_avatars", uploadedImage);
-  const newUser = new UserModel({
-    ...request.body,
-    password: encryptedPassword,
-    avatar: uploadedImage,
-  });
-
-  console.log(request.body, "something wrong with the body");
   try {
+    const encryptedPassword = await encryptPassword(request.body.password);
+    const uploadedImage = await imageUpload(request.file, "user_avatars");
+
+    const newUser = new UserModel({
+      ...request.body,
+      password: encryptedPassword,
+      avatar: uploadedImage,
+    });
+
     const registeredUser = await newUser.save();
-    response.status(200).json({
-      message: "Successfully registered!",
+
+    response.status(201).json({
+      message: "User has been registered.",
       username: registeredUser.username,
       avatar: registeredUser.avatar,
       email: registeredUser.email,
     });
-    console.log(registeredUser);
   } catch (error) {
-    console.log(error);
-    response.status(500).json("something went wrong");
+    if (error.code === 11000) {
+      response.status(409).json("User already exists.");
+    } else {
+      console.log(error);
+      response.status(500).json("Something went wrong - check console");
+    }
   }
+
 };
+
+// const removeFavorite = async (req, res) => {
+//   const userId = req.user._id;
+//   const { recipe } = req.body;
+//   // Get the user id and the recipe id from the request const userId = req.user._id; const recipeId = req.params.id;
+// }
 // A function to add or remove a recipe from the user's favorites
-const addOrRemoveFavorite = async (req, res) => {
+const addFavorite = async (req, res) => {
   // Get the user id and the recipe from the request
   const userId = req.user._id;
   const { recipe, foodCategorie } = req.body;
@@ -154,4 +189,12 @@ const login = async (req, res) => {
   }
 };
 
-export { testingRoute, createUser, login, getActiveUser, addOrRemoveFavorite };
+export {
+  testingRoute,
+  createUser,
+  login,
+  getActiveUser,
+  addFavorite,
+  removeFavorite,
+  // deleteUser,
+};

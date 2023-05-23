@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import ReactMarkdown from "react-markdown";
 
 interface Props {}
 
@@ -11,13 +13,12 @@ interface Favorite {
 }
 
 export const UserArea = ({}: Props) => {
-  const [favorites, setFavorites] = useState<Favorite[]>([]);
-  const [showDetails, setShowDetails] = useState<string | null>(null);
-
-  console.log("loading component");
+  const { user } = useContext(AuthContext);
+  const [favorites, setFavorites] = useState<Favorite[]>([])
+  const [showDetails, setShowDetails] = useState<string | null>(null)
 
   const toggleShowDetails = (favoriteId: string) => {
-    setShowDetails(showDetails === favoriteId ? null : favoriteId);
+    setShowDetails((prevId) => (prevId === favoriteId ? null : favoriteId));
   };
 
   const getApiData = async () => {
@@ -44,9 +45,29 @@ export const UserArea = ({}: Props) => {
     setFavorites(result);
   };
 
-  useEffect(() => {
-    getApiData();
-  }, []);
+
+  const deleteRecipe = async (recipeId: string) => { 
+
+    const testUrl = `http://localhost:9000/api/users/update/${recipeId}`;
+
+    const myHeaders = new Headers();
+
+    const tokenValue = localStorage.getItem("token");
+    console.log("token: ", tokenValue);
+
+    myHeaders.append("Authorization", `Bearer ${tokenValue}`);
+    myHeaders.append("Content-Type", "application/json");
+
+    var requestOptions = {
+      method: 'PUT',
+      headers: myHeaders,
+    };
+    const response = await fetch(testUrl, requestOptions);
+    const result = await response.json();
+    console.log(result);
+    setFavorites(result);
+  
+  }
 
   const extractFirstHeader = (markdown: string) => {
     const match = markdown.match(/^#\s*(.+)$/m);
@@ -56,35 +77,46 @@ export const UserArea = ({}: Props) => {
     return null;
   };
 
+  useEffect(() => {
+    getApiData();
+
+  }, []);
+
+
   return (
     <div className="m-10">
-      {favorites && (
-        <>
-          {favorites.map((favorite) => (
-            <div
-              key={favorite._id}
-              className="max-w-md mx-auto bg-gray-200 p-4 mt-4 rounded"
-            >
+      {user ? (
+        favorites && (
+          <>
+            {favorites.map((favorite) => (
               <div
-                className="cursor-pointer flex items-center justify-between mb-2"
-                onClick={() => toggleShowDetails(favorite._id)}
+                key={favorite._id}
+                className="max-w-md mx-auto bg-gray-200 p-4 mt-4 rounded"
               >
-                <p className="text-xl font-bold text-orange-500">
-                  {extractFirstHeader(favorite.markdown)}
-                </p>
-                <span className="text-gray-600">
-                  {showDetails === favorite._id ? "-" : "+"}
-                </span>
+                <div
+                  className="cursor-pointer flex items-center justify-between mb-2"
+                  onClick={() => toggleShowDetails(favorite._id)}
+                >
+                  <p className="text-xl font-bold text-orange-500">
+                    {extractFirstHeader(favorite.markdown)}
+                  </p>
+                  <span className="text-gray-600">
+                    {showDetails === favorite._id ? "-" : "+"}
+                  </span>
+                </div>
+                {showDetails === favorite._id && (
+                  <>
+                  <ReactMarkdown className="markdown">{favorite.markdown}</ReactMarkdown>
+                    <p>Food Category: {favorite.foodCategorie}</p>
+                  </>
+                )}
               </div>
-              {showDetails === favorite._id && (
-                <>
-                  <p>Markdown: {favorite.markdown}</p>
-                  <p>Food Category: {favorite.foodCategorie}</p>
-                </>
-              )}
-            </div>
-          ))}
-        </>
+            ))}
+          </>
+        )
+      ) : (
+
+        <p className="text-red-500">You should login first.</p>
       )}
     </div>
   );

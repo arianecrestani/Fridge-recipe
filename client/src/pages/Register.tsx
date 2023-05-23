@@ -21,14 +21,19 @@ interface SubmitRegisterData {
 type Props = {};
 
 const Register = (props: Props) => {
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [formData, setFormData] = useState<SubmitRegisterData>({
     email: "",
     password: "",
     username: "",
     avatar: "",
   });
-  const [loading, setLoading] = useState(false);
+
   const { user } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -62,7 +67,23 @@ const Register = (props: Props) => {
       );
       const result = await response.json();
       console.log(result);
-      alert("Success! Check console.");
+
+      switch (response.status) {
+        case 201:
+          setMessage("User has been registered.");
+          const id = setTimeout(() => {
+            navigate("/user");
+          }, 3000);
+          // Store the timeout id in the state
+          setTimeoutId(id);
+          break;
+        case 409:
+          setMessage("User already exists.");
+          break;
+        default:
+          setMessage("Something went wrong - check console");
+      }
+
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -70,8 +91,13 @@ const Register = (props: Props) => {
       setLoading(false);
     }
   };
-
-  // quando o usuario se registrar vai aparece uma mensagem user has been register.
+  useEffect(() => {
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [timeoutId]);
 
   return (
     <div className="flex items-center justify-center p-28">
@@ -131,6 +157,7 @@ const Register = (props: Props) => {
           </button>
           {loading && <>Loading...</>}
         </form>
+        {message && <p className="text-red-500">{message}</p>}
       </div>
     </div>
   );

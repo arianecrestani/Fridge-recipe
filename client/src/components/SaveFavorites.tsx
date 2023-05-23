@@ -1,7 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FunctionComponent } from "react";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
+
 
 interface SaveFavoriteButtonProps {
   markdown: string;
@@ -12,11 +16,15 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
   markdown, foodCategorie
 }) => {
   // const [favoriteRecipes, setFavoriteRecipes] = useState([]); // move this inside the component function
-
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const saveFavorite = async () => {
-    if (!markdown) {
-      return;
-    }
+   
+    if (!user) {
+     navigate("/login");
+    }else {
+
+
 
     const favoriteUrl = `http://localhost:9000/api/users/favorites`;
 
@@ -47,7 +55,8 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
       console.log(error); 
   
     }
-  };
+  }
+}
 
   return (
     <FontAwesomeIcon onClick={saveFavorite} icon={faHeart} className="mr-2" />

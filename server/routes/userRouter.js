@@ -6,7 +6,9 @@ import {
   createUser,
   login,
   getActiveUser,
-  addOrRemoveFavorite,
+  addFavorite,
+  removeFavorite
+
 } from "../controllers/userControllers.js";
 import { getRecipesForLoggedUser } from "../controllers/recipeControllers.js";
 import jwtAuth from "../middlewares/jwtAuth.js";
@@ -16,8 +18,10 @@ const userRouter = express.Router();
 userRouter.get("/test", testingRoute);
 
 userRouter.get("/active", jwtAuth, getActiveUser);
-userRouter.post("/favorites", jwtAuth, addOrRemoveFavorite);
+userRouter.post("/favorites", jwtAuth, addFavorite);
 userRouter.get("/favorites", jwtAuth, getRecipesForLoggedUser);
+userRouter.put("/update/:recipeId", jwtAuth, removeFavorite);
+// userRouter.delete("/favorites/:id", jwtAuth, deleteUser)
 
 userRouter.post("/new", multerUpload.single("avatar"), createUser);
 userRouter.post("/login", login);

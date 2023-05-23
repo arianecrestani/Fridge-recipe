@@ -32,6 +32,8 @@ export const Home = () => {
     const result = await response.json();
     console.log(result);
     setMarkdown(result.choices[0].text);
+    setInput('')
+
   };
 
   return (
@@ -42,6 +44,7 @@ export const Home = () => {
       >
         <label className="text-lg">Enter the ingredients:</label>
         <textarea
+          value={input}
           onChange={(e) => setInput(e.target.value)}
           className="border rounded-lg p-2 w-96"
         ></textarea>

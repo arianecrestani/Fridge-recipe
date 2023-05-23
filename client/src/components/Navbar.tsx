@@ -23,7 +23,11 @@ export const Navbar = (props: Props) => {
             >
               Logout
             </button>
+            <div className="mr-4 flex p-4">
+            <Link  to="/user" className="text-white">UserArea</Link>
+            </div>
           </div>
+       
         ) : (
           <div className="flex">
             <div className="mr-4">

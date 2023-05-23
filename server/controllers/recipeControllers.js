@@ -13,7 +13,10 @@ const sendPrompt = async (request, response) => {
   }
 };
 
+
+
 const getRecipesForLoggedUser = async (request, response) => {
+
   const userId = request.user._id;
 
   try {

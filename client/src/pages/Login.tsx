@@ -3,7 +3,6 @@ import React, {
   FormEvent,
   useContext,
   useState,
-  useEffect,
 } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -53,7 +52,6 @@ const Login = ({}: Props) => {
           className="w-full p-2 border border-gray-300 rounded focus:outline-none mb-4"
           onChange={handleChange}
         />
-
         <button
           type="submit"
           className="w-full p-2 border border-gray-300 rounded focus:outline-none mb-4"
