@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import ReactMarkdown from "react-markdown";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {}
 
@@ -14,8 +16,8 @@ interface Favorite {
 
 export const UserArea = ({}: Props) => {
   const { user } = useContext(AuthContext);
-  const [favorites, setFavorites] = useState<Favorite[]>([])
-  const [showDetails, setShowDetails] = useState<string | null>(null)
+  const [favorites, setFavorites] = useState<Favorite[]>([]);
+  const [showDetails, setShowDetails] = useState<string | null>(null);
 
   const toggleShowDetails = (favoriteId: string) => {
     setShowDetails((prevId) => (prevId === favoriteId ? null : favoriteId));
@@ -45,9 +47,7 @@ export const UserArea = ({}: Props) => {
     setFavorites(result);
   };
 
-
-  const deleteRecipe = async (recipeId: string) => { 
-
+  const deleteRecipe = async (recipeId: string) => {
     const testUrl = `http://localhost:9000/api/users/update/${recipeId}`;
 
     const myHeaders = new Headers();
@@ -58,16 +58,19 @@ export const UserArea = ({}: Props) => {
     myHeaders.append("Authorization", `Bearer ${tokenValue}`);
     myHeaders.append("Content-Type", "application/json");
 
-    var requestOptions = {
-      method: 'PUT',
+    const requestOptions = {
+      method: "PUT",
       headers: myHeaders,
     };
     const response = await fetch(testUrl, requestOptions);
     const result = await response.json();
     console.log(result);
     setFavorites(result);
-  
-  }
+
+    const index = favorites.findIndex((fav) => fav._id === recipeId);
+    favorites.splice(index, 1);
+    setFavorites(favorites);
+  };
 
   const extractFirstHeader = (markdown: string) => {
     const match = markdown.match(/^#\s*(.+)$/m);
@@ -79,9 +82,7 @@ export const UserArea = ({}: Props) => {
 
   useEffect(() => {
     getApiData();
-
   }, []);
-
 
   return (
     <div className="m-10">
@@ -103,10 +104,17 @@ export const UserArea = ({}: Props) => {
                   <span className="text-gray-600">
                     {showDetails === favorite._id ? "-" : "+"}
                   </span>
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className="text-red-500 hover:text-red-700 cursor-pointer"
+                    onClick={() => deleteRecipe(favorite._id)}
+                  />
                 </div>
                 {showDetails === favorite._id && (
                   <>
-                  <ReactMarkdown className="markdown">{favorite.markdown}</ReactMarkdown>
+                    <ReactMarkdown className="markdown">
+                      {favorite.markdown}
+                    </ReactMarkdown>
                     <p>Food Category: {favorite.foodCategorie}</p>
                   </>
                 )}
@@ -115,7 +123,6 @@ export const UserArea = ({}: Props) => {
           </>
         )
       ) : (
-
         <p className="text-red-500">You should login first.</p>
       )}
     </div>

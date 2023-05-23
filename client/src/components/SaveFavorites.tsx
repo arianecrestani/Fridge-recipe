@@ -15,16 +15,13 @@ interface SaveFavoriteButtonProps {
 export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
   markdown, foodCategorie
 }) => {
-  // const [favoriteRecipes, setFavoriteRecipes] = useState([]); // move this inside the component function
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const saveFavorite = async () => {
    
-    if (!user) {
-     navigate("/login");
-    }else {
-
-
+  if (!user) {
+    navigate("/login");
+  }else {
 
     const favoriteUrl = `http://localhost:9000/api/users/favorites`;
 
@@ -57,8 +54,7 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
     }
   }
 }
-
-  return (
+return (
     <FontAwesomeIcon onClick={saveFavorite} icon={faHeart} className="mr-2" />
   );
 };
