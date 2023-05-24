@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import ReactMarkdown from "react-markdown";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { DeleteButton } from "../components/DeleteButton";
 
 interface Props {}
 
@@ -66,9 +65,8 @@ export const UserArea = ({}: Props) => {
     const result = await response.json();
     console.log(result);
     setFavorites((prevFavorites) =>
-    prevFavorites.filter((favorite) => favorite._id !== recipeId)
+      prevFavorites.filter((favorite) => favorite._id !== recipeId)
     );
-
   };
 
   const extractFirstHeader = (markdown: string) => {
@@ -103,10 +101,9 @@ export const UserArea = ({}: Props) => {
                   <span className="text-gray-600">
                     {showDetails === favorite._id ? "-" : "+"}
                   </span>
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className="text-red-500 hover:text-red-700 cursor-pointer"
-                    onClick={() => deleteRecipe(favorite._id)}
+                  <DeleteButton
+                    recipeId={favorite._id}
+                    deleteRecipe={deleteRecipe}
                   />
                 </div>
                 {showDetails === favorite._id && (
