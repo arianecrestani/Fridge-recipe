@@ -35,7 +35,7 @@ const getRecipesForLoggedUser = async (request, response) => {
 
 const createRecipe = async (request, response) => {
   console.log(request.body);
-  response.send(request.body);
+  // response.send(request.body);
 
   const newRecipe = new RecipeModel({
     ...request.body,

@@ -20,7 +20,7 @@ userRouter.get("/test", testingRoute);
 userRouter.get("/active", jwtAuth, getActiveUser);
 userRouter.post("/favorites", jwtAuth, addFavorite);
 userRouter.get("/favorites", jwtAuth, getRecipesForLoggedUser);
-userRouter.put("/update/:recipeId", jwtAuth, removeFavorite);
+userRouter.put("/updates/:recipeId", jwtAuth, removeFavorite);
 // userRouter.delete("/favorites/:id", jwtAuth, deleteUser)
 
 userRouter.post("/new", multerUpload.single("avatar"), createUser);

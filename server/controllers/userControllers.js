@@ -4,7 +4,10 @@ import { generateToken } from "../utils/jwt.js";
 import { imageUpload } from "../utils/imageUpload.js";
 
 import UserModel from "../models/userModels.js";
+import RecipeModel from "../models/recipeModels.js";
 import MarkdownModel from "../models/recipeModels.js";
+import { request } from "express";
+import userRouter from "../routes/userRouter.js";
 
 const testingRoute = (request, response) => {
   console.log("request.body", request.body);
@@ -14,16 +17,18 @@ const testingRoute = (request, response) => {
 
 const removeFavorite = async (req, res) => {
   const userId = req.user._id;
+
   const { recipeId } = req.params;
   console.log(req.params, "removeFav");
-  const trasformRecipeId = recipeId.toString()
 
   try {
     const findUserAndUpdateFavorite = await UserModel.findByIdAndUpdate(
       userId,
-      { $pull: { recipes: trasformRecipeId} },
+      { $pull: { recipes: recipeId } },
       { new: true }
     );
+
+    await RecipeModel.findByIdAndDelete(recipeId);
 
     console.log(
       "User's favorites array updated successfully:",
@@ -41,7 +46,6 @@ const removeFavorite = async (req, res) => {
     });
   }
 };
-
 
 const getActiveUser = async (req, res) => {
   res.status(200).json({
@@ -80,7 +84,6 @@ const createUser = async (request, response) => {
       response.status(500).json("Something went wrong - check console");
     }
   }
-
 };
 
 // const removeFavorite = async (req, res) => {
@@ -99,51 +102,31 @@ const addFavorite = async (req, res) => {
   console.log("Params: ", req);
 
   try {
-    // Find the user by id and populate their recipes
-    const user = await UserModel.findById(userId).populate({
-      path: "recipes",
-      ref: "Recipe",
-    });
-
-    // If the user is not found, send a 404 error
-    if (!user) {
+    if (!req.user) {
       return res.status(404).json({ error: "User not found" });
     }
-
-    // Create a new markdown model for the recipe
     const markdownRecipe = new MarkdownModel({
       markdown: recipe,
-      author: user,
+      author: userId,
       foodCategorie: foodCategorie,
     });
 
-    // Log the recipe for debugging
     console.log("Recipe: ", markdownRecipe);
 
     // Save the recipe to the database
     const savedRecipe = await markdownRecipe.save();
 
-    // Check if the recipe is already in the user's favorites
-    const isFavorite = user.recipes.some(
-      (r) => r._id.toString() === savedRecipe._id.toString()
+    await UserModel.findByIdAndUpdate(
+      userId,
+      {
+        $push: { recipes: savedRecipe._id },
+      },
+      { new: true }
     );
-
-    // If it is, remove it from the favorites
-    if (isFavorite) {
-      user.recipes = user.recipes.filter(
-        (r) => r._id.toString() !== savedRecipe._id.toString()
-      );
-      await user.save();
-      res
-        .status(200)
-        .json({ msg: "Recipe removed from favorites", savedRecipe });
-    }
-    // If it is not, add it to the favorites
-    else {
-      user.recipes.push(savedRecipe._id);
-      await user.save();
-      res.status(200).json({ msg: "Recipe added to favorites", savedRecipe });
-    }
+    res.status(200).json({
+      msg: "recipe add",
+      newRecipe: savedRecipe,
+    });
   } catch (e) {
     // If there is an error, log it and send a 500 error
     console.log(e);

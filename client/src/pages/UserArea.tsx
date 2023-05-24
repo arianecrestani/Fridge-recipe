@@ -48,7 +48,7 @@ export const UserArea = ({}: Props) => {
   };
 
   const deleteRecipe = async (recipeId: string) => {
-    const testUrl = `http://localhost:9000/api/users/update/${recipeId}`;
+    const testUrl = `http://localhost:9000/api/users/updates/${recipeId}`;
 
     const myHeaders = new Headers();
 
@@ -65,11 +65,10 @@ export const UserArea = ({}: Props) => {
     const response = await fetch(testUrl, requestOptions);
     const result = await response.json();
     console.log(result);
-    setFavorites(result);
+    setFavorites((prevFavorites) =>
+    prevFavorites.filter((favorite) => favorite._id !== recipeId)
+    );
 
-    const index = favorites.findIndex((fav) => fav._id === recipeId);
-    favorites.splice(index, 1);
-    setFavorites(favorites);
   };
 
   const extractFirstHeader = (markdown: string) => {
