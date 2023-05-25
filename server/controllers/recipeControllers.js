@@ -1,22 +1,41 @@
 import MarkdownModel from "../models/recipeModels.js";
 import openAiConfig from "../config/openAiConfig.js";
+import HomeRecipeModel from "../models/homeRecipesModels.js";
 
 const sendPrompt = async (request, response) => {
+  // const { recipe, foodCategorie } = req.body;
   console.log(request.body);
   try {
     const newResult = await openAiConfig(
-      `ingredients:  ${request.body.ingredients},foodGroup: ${request.body.foodGroup}`
+      `ingredients:${request.body.ingredients},foodGroup: ${request.body.foodGroup}`
     );
+    // const markdown = newResult.choices[0].text;
+
+    const markdownRecipe = new HomeRecipeModel({
+      markdown:newResult.choices[0].text,
+      foodCategorie: request.body.foodGroup,
+    });
+ 
+    await markdownRecipe.save();
+
     response.status(200).json(newResult);
   } catch (error) {
     console.log(error);
   }
 };
 
+const getRecipes = async (request, response)  => {
+  try {
+    const recipes = await HomeRecipeModel.find()
+    response.status(200).json(recipes);
+     } catch (e) {
+      response.status(500).json({error:"something went wrong.."})
+    console.log(e);
+  }
 
+}
 
 const getRecipesForLoggedUser = async (request, response) => {
-
   const userId = request.user._id;
 
   try {
@@ -33,24 +52,4 @@ const getRecipesForLoggedUser = async (request, response) => {
   }
 };
 
-const createRecipe = async (request, response) => {
-  console.log(request.body);
-  // response.send(request.body);
-
-  const newRecipe = new RecipeModel({
-    ...request.body,
-    recipes: [],
-  });
-  try {
-    const saveRecipe = await newRecipe.save();
-    response.status(200).json({
-      message: "Successfully recipe saved",
-      newRecipe: saveRecipe,
-    });
-  } catch (error) {
-    console.log(error);
-    response.status(500).json("something went wrong");
-  }
-};
-
-export { getRecipesForLoggedUser, createRecipe, sendPrompt };
+export { getRecipesForLoggedUser, sendPrompt, getRecipes };

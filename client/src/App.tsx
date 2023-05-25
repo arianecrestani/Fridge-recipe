@@ -8,17 +8,14 @@ import { Home } from "./pages/Home";
 import { UserArea } from "./pages/UserArea";
 
 
-
-
-
 function App() {
   return (
     <div className="App">
       <AuthContextProvider>
         <BrowserRouter>
-          <Navbar/>
+          <Navbar />
           <Routes>
-            <Route path="/" element={<Home />}/>
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/user" element={<UserArea />} />

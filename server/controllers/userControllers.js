@@ -2,12 +2,10 @@
 import { verifyPassword, encryptPassword } from "../utils/bcrypt.js";
 import { generateToken } from "../utils/jwt.js";
 import { imageUpload } from "../utils/imageUpload.js";
-
 import UserModel from "../models/userModels.js";
 import RecipeModel from "../models/recipeModels.js";
 import MarkdownModel from "../models/recipeModels.js";
-import { request } from "express";
-import userRouter from "../routes/userRouter.js";
+
 
 const testingRoute = (request, response) => {
   console.log("request.body", request.body);
@@ -86,12 +84,7 @@ const createUser = async (request, response) => {
   }
 };
 
-// const removeFavorite = async (req, res) => {
-//   const userId = req.user._id;
-//   const { recipe } = req.body;
-//   // Get the user id and the recipe id from the request const userId = req.user._id; const recipeId = req.params.id;
-// }
-// A function to add or remove a recipe from the user's favorites
+
 const addFavorite = async (req, res) => {
   // Get the user id and the recipe from the request
   const userId = req.user._id;
@@ -179,5 +172,4 @@ export {
   getActiveUser,
   addFavorite,
   removeFavorite,
-  // deleteUser,
 };

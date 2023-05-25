@@ -1,13 +1,11 @@
 import React, { FormEvent, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 import "tailwindcss/tailwind.css";
 import { SaveFavorites } from "../components/SaveFavorites";
 
 export const Home = () => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState("")
   const [markdown, setMarkdown] = useState("");
   const [foodGroup, setFoodGroup] = useState("");
 

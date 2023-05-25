@@ -6,7 +6,6 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 import recipeRouter from "./routes/recipeRouter.js";
 import passportConfig from "./config/passport.js";
-import openAiConfig from "./config/openAiConfig.js";
 
 dotenv.config();
 // hello
@@ -47,6 +46,7 @@ const connectMongoose = () => {
 const connectRoutes = () => {
   app.use("/api/users", userRouter);
   app.use("/api/recipes", recipeRouter);
+  // app.use("/api/re", recipesRouter);
 };
 
 setMiddlewares();

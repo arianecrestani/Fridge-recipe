@@ -15,7 +15,7 @@ interface SaveFavoriteButtonProps {
 export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
   markdown, foodCategorie
 }) => {
-  const { user } = useContext(AuthContext);
+  const { user, login } = useContext(AuthContext);
   const navigate = useNavigate();
   const saveFavorite = async () => {
    
