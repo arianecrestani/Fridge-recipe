@@ -16,7 +16,9 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
   markdown, foodCategorie
 }) => {
   const { user, login } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
+  
   const saveFavorite = async () => {
    
   if (!user) {
