@@ -69,19 +69,17 @@ export const Home: React.FC<Props> = () => {
   };
 
   function extractFirstHeader(markdown: string): React.ReactNode {
-    // Use a regular expression to match the first header line
     const regex = /^#(.*)/m;
     const match = regex.exec(markdown);
-    // If there is a match, return the header text
+   
     if (match) {
       return match[1].trim();
     }
-    // Otherwise, return an empty string
+
     else {
       return "";
     }
   }
-
   return (
     <div className="m-10">
       <form
@@ -118,38 +116,48 @@ export const Home: React.FC<Props> = () => {
           Submit
         </button>
       </form>
-      <div className="p-12">
-        {recipes ? (
-          recipes.map((recipe) => (
-            <div
-              key={recipe._id}
-              className="max-w-md mx-auto bg-gray-200 p-4 mt-4 rounded"
-            >
-              <div
-                className="cursor-pointer flex items-center justify-between mb-2"
-                onClick={() => toggleShowDetails(recipe._id)}
-              >
-                <p className="text-xl font-bold text-orange-500">
-                  {extractFirstHeader(recipe.markdown)}
-                </p>
-                <span className="text-gray-600">
-                  {showDetails === recipe._id ? "-" : "+"}
-                </span>
-                <SaveFavorites
-                  markdown={recipe.markdown}
-                  foodCategorie={recipe.foodCategorie}
-                />
-              </div>
-              {showDetails === recipe._id && (
-                <>
-                  <ReactMarkdown className="markdown">
-                    {recipe.markdown}
-                  </ReactMarkdown>
-                  <p>Food Category: {recipe.foodCategorie}</p>
-                </>
-              )}
+      <div className="p-12 flex justify-center items-start flex-wrap ">
+        {markdown && (
+          <>
+            <div className="p-10 m-12 bg-gray-100 p-4 shadow-lg rounded-lg border border-gray-300 transform rotate-5 inline-block max-w-[80%]">
+              <SaveFavorites markdown={markdown} foodCategorie={foodGroup} />
+              <ReactMarkdown className="markdown">{markdown}</ReactMarkdown>
             </div>
-          ))
+          </>
+        )}
+        {recipes ? (
+          <div className="flex flex-wrap justify-center items-start">
+            {recipes.map((recipe) => (
+              <div
+                key={recipe._id}
+                className="max-w-md mx-auto bg-gray-200 p-4 mt-4 rounded"
+              >
+                <div
+                  className="cursor-pointer flex items-center justify-between mb-2"
+                  onClick={() => toggleShowDetails(recipe._id)}
+                >
+                  <p className="text-xl font-bold text-orange-500">
+                    {extractFirstHeader(recipe.markdown)}
+                  </p>
+                  <span className="text-gray-600">
+                    {showDetails === recipe._id ? "-" : "+"}
+                  </span>
+                  <SaveFavorites
+                    markdown={recipe.markdown}
+                    foodCategorie={recipe.foodCategorie}
+                  />
+                </div>
+                {showDetails === recipe._id && (
+                  <>
+                    <ReactMarkdown className="markdown">
+                      {recipe.markdown}
+                    </ReactMarkdown>
+                    <p>Food Category: {recipe.foodCategorie}</p>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
         ) : (
           <p className="text-red-500">No recipes found.</p>
         )}
