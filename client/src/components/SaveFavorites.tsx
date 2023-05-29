@@ -54,7 +54,7 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
     <FontAwesomeIcon
       onClick={saveFavorite}
       icon={faHeart}
-      className="mr-8 p-8"
+      className="p-2"
     />
   );
 };

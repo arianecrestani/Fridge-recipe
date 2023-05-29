@@ -76,9 +76,9 @@ export const Home: React.FC<Props> = () => {
   }, [Home]);
 
   return (
-    <div className="container flex justify-between w-full">
+    <div className="container flex w-full">
       <RecipeGenerator getApiData={getApiData} />
-        {/* {markdown && (
+      {/* {markdown && (
             <>
               <div className=" p-10 m-12 bg-gray-100 p-4 shadow-lg rounded-lg border border-gray-300 transform rotate-5 inline-block max-w-[80%]">
                 <SaveFavorites markdown={markdown} foodCategorie={foodGroup} />
@@ -86,40 +86,36 @@ export const Home: React.FC<Props> = () => {
               </div>
             </>
           )} */}
-        {recipes && (
-          <div className="p-10 flex-col justify-center items-start">
-            {recipes.map(({ _id, markdown, foodCategorie }) => (
+      {recipes && (
+        <div className="p-10 flex-col space-y-5">
+          {recipes.map(({ _id, markdown, foodCategorie }) => (
+            <div key={_id} className="bg-gray-200 rounded p-5">
               <div
-                key={_id}
-                className="bg-gray-200 p-4 mt-4 rounded"
+                className="cursor-pointer flex items-center"
+                onClick={() => toggleShowDetails(_id)}
               >
-                <div
-                  className="cursor-pointer flex items-center justify-between mb-2"
-                  onClick={() => toggleShowDetails(_id)}
-                >
-                  <p className="text-xl font-bold text-orange-500 pr-4">
-                    {extractFirstHeader(markdown)}
-                  </p>
-                  <span className="text-gray-600 ">
-                    {showDetails === _id ? "-" : "+"}
-                  </span>
-                  <SaveFavorites
-                    markdown={markdown}
-                    foodCategorie={foodCategorie}
-                  />
-                </div>
-                {showDetails === _id && (
-                  <>
-                    <ReactMarkdown className="markdown">
-                      {markdown}
-                    </ReactMarkdown>
-                    <p>Food Category: {foodCategorie}</p>
-                  </>
-                )}
+                <span className="text-gray-600 p-2">
+                  {showDetails === _id ? "-" : "+"}
+                </span>
+                <SaveFavorites
+                  markdown={markdown}
+                  foodCategorie={foodCategorie}
+                />
+                <p className="text-xl font-bold text-orange-500">
+                  {extractFirstHeader(markdown)}
+                </p>
               </div>
-            ))}
-          </div>
-        )}
+
+              {showDetails === _id && (
+                <>
+                  <ReactMarkdown className="markdown">{markdown}</ReactMarkdown>
+                  <p>Food Category: {foodCategorie}</p>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

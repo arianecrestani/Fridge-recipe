@@ -25,30 +25,6 @@ const aiRole = `
   example: healthy, comfy, fatty, sweet, creative
 `;
 
-const outputFormat = `
-  {
-    name: " ",
-    icon: " ",
-    serving: " ",
-    instruction: [" "],
-    preparationTime: " ",
-    ingredients: [
-      {
-        ingredient: " ",
-        quantity: " ",
-      },
-    ],
-    nutritional: [
-      {
-        calories: 0,
-        protein: "g",
-        carbs: "g",
-      },
-    ],
-    foodGroup: "",
-  },
-`
-
 const openAiConfig = async (textPrompt) => {
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,

@@ -1,5 +1,7 @@
 .markdown {
   text-align: justify;
+  padding: 1rem;
+  max-width: 100%;
 }
 .markdown h1 {
   font-size: 2rem;
@@ -14,6 +16,6 @@
 }
 
 .markdown li {
-  padding-left: 1rem;
+  padding-left: 2rem;
   padding-top: 0.5rem;
 }

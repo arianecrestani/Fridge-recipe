@@ -10,7 +10,7 @@ export const RecipeGenerator = ({ getApiData }: RecipeGeneratorProps) => {
   const onSubmitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     getApiData(input, foodGroup);
-    setInput("")
+    setInput("");
   };
 
   return (
@@ -28,7 +28,7 @@ export const RecipeGenerator = ({ getApiData }: RecipeGeneratorProps) => {
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
             setInput(e.target.value)
           }
-          className="border rounded-lg  w-full"
+          className="border rounded-lg w-full p-5"
         ></textarea>
         <select
           value={foodGroup}
@@ -47,7 +47,7 @@ export const RecipeGenerator = ({ getApiData }: RecipeGeneratorProps) => {
         </select>
         <button
           type="submit"
-          className=" w-full p-2 border border-gray-300 rounded focus:outline-none mb-4"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none mb-4"
         >
           Submit
         </button>
