@@ -129,7 +129,7 @@ export const Home: React.FC<Props> = () => {
         <div className=" flex justify-center items-start flex-wrap ">
           {markdown && (
             <>
-              <div className="p-10 m-12 bg-gray-100 p-4 shadow-lg rounded-lg border border-gray-300 transform rotate-5 inline-block max-w-[80%]">
+              <div className=" p-10 m-12 bg-gray-100 p-4 shadow-lg rounded-lg border border-gray-300 transform rotate-5 inline-block max-w-[80%]">
                 <SaveFavorites markdown={markdown} foodCategorie={foodGroup} />
                 <ReactMarkdown className="markdown">{markdown}</ReactMarkdown>
               </div>
@@ -146,10 +146,10 @@ export const Home: React.FC<Props> = () => {
                     className="cursor-pointer flex items-center justify-between mb-2"
                     onClick={() => toggleShowDetails(_id)}
                   >
-                    <p className="text-xl font-bold text-orange-500">
+                    <p className="text-xl font-bold text-orange-500 pr-4">
                       {extractFirstHeader(markdown)}
                     </p>
-                    <span className="text-gray-600">
+                    <span className="text-gray-600 justify-between">
                       {showDetails === _id ? "-" : "+"}
                     </span>
                     <SaveFavorites

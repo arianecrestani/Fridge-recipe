@@ -85,32 +85,32 @@ export const UserArea = ({}: Props) => {
     return (
       favorites && (
         <>
-          {favorites.map((favorite) => (
+          {favorites.map(({ _id, markdown, foodCategorie }) => (
             <div
-              key={favorite._id}
+              key={_id}
               className="max-w-md mx-auto bg-gray-200 p-4 mt-4 rounded"
             >
               <div
                 className="cursor-pointer flex items-center justify-between mb-2"
-                onClick={() => toggleShowDetails(favorite._id)}
+                onClick={() => toggleShowDetails(_id)}
               >
                 <p className="text-xl font-bold text-orange-500">
-                  {extractFirstHeader(favorite.markdown)}
+                  {extractFirstHeader(markdown)}
                 </p>
                 <span className="text-gray-600">
-                  {showDetails === favorite._id ? "-" : "+"}
+                  {showDetails === _id ? "-" : "+"}
                 </span>
                 <DeleteButton
-                  recipeId={favorite._id}
+                  recipeId={_id}
                   deleteRecipe={deleteRecipe}
                 />
               </div>
-              {showDetails === favorite._id && (
+              {showDetails === _id && (
                 <>
                   <ReactMarkdown className="markdown">
-                    {favorite.markdown}
+                    {markdown}
                   </ReactMarkdown>
-                  <p>Food Category: {favorite.foodCategorie}</p>
+                  <p>Food Category: {foodCategorie}</p>
                 </>
               )}
             </div>

@@ -18,7 +18,7 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
   const { user, login } = useContext(AuthContext);
   const navigate = useNavigate()
 
-  
+
   const saveFavorite = async () => {
    
   if (!user) {
@@ -57,7 +57,7 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
   }
 }
 return (
-    <FontAwesomeIcon onClick={saveFavorite} icon={faHeart} className="mr-2" />
+    <FontAwesomeIcon onClick={saveFavorite} icon={faHeart} className="mr-8 p-8" />
   );
 };
 //If you are currently receiving an array of recipe IDs instead of the complete recipe data, 
