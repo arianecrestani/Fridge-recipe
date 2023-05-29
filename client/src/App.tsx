@@ -8,9 +8,11 @@ import { Home } from "./pages/Home";
 import { UserArea } from "./pages/UserArea";
 
 
+
 function App() {
   return (
     <div className="App">
+      
       <AuthContextProvider>
         <BrowserRouter>
           <Navbar />
