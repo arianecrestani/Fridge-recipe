@@ -12,10 +12,10 @@ const sendPrompt = async (request, response) => {
     // const markdown = newResult.choices[0].text;
 
     const markdownRecipe = new HomeRecipeModel({
-      markdown:newResult.choices[0].text,
+      markdown: newResult.choices[0].text,
       foodCategorie: request.body.foodGroup,
     });
- 
+
     await markdownRecipe.save();
 
     response.status(200).json(newResult);
@@ -24,16 +24,17 @@ const sendPrompt = async (request, response) => {
   }
 };
 
-const getRecipes = async (request, response)  => {
+const getRecipes = async (request, response) => {
   try {
-    const recipes = await HomeRecipeModel.find()
+    const recipes = await HomeRecipeModel.find();
+
+
     response.status(200).json(recipes);
-     } catch (e) {
-      response.status(500).json({error:"something went wrong.."})
+  } catch (e) {
+    response.status(500).json({ error: "something went wrong.." });
     console.log(e);
   }
-
-}
+};
 
 const getRecipesForLoggedUser = async (request, response) => {
   const userId = request.user._id;
