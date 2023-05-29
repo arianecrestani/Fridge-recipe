@@ -8,14 +8,7 @@ import recipeRouter from "./routes/recipeRouter.js";
 import passportConfig from "./config/passport.js";
 
 dotenv.config();
-// hello
-// node js is the entry point for the server
-// Http server sends the request to express
-// Express is a framework that controller the requests and response
-// The middleware chooses which function to call and processes that request.
-//For example, we may have a function for login and another for sign up.
-//After that, the middlewares pass the response created by the chosen function to the Node.js HTTP server.
-const app = express(); //command initializes a new instance of express
+const app = express();
 const port = process.env.PORT || 9000;
 
 const setMiddlewares = () => {
