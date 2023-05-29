@@ -72,7 +72,7 @@ const Register = (props: Props) => {
         case 201:
           setMessage("User has been registered.");
           const id = setTimeout(() => {
-            navigate("/user");
+            navigate("/login");
           }, 3000);
           // Store the timeout id in the state
           setTimeoutId(id);

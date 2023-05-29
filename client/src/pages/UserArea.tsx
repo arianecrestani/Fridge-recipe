@@ -81,46 +81,64 @@ export const UserArea = ({}: Props) => {
     getApiData();
   }, []);
 
+  const showFavorites = () => {
+    return (
+      favorites && (
+        <>
+          {favorites.map((favorite) => (
+            <div
+              key={favorite._id}
+              className="max-w-md mx-auto bg-gray-200 p-4 mt-4 rounded"
+            >
+              <div
+                className="cursor-pointer flex items-center justify-between mb-2"
+                onClick={() => toggleShowDetails(favorite._id)}
+              >
+                <p className="text-xl font-bold text-orange-500">
+                  {extractFirstHeader(favorite.markdown)}
+                </p>
+                <span className="text-gray-600">
+                  {showDetails === favorite._id ? "-" : "+"}
+                </span>
+                <DeleteButton
+                  recipeId={favorite._id}
+                  deleteRecipe={deleteRecipe}
+                />
+              </div>
+              {showDetails === favorite._id && (
+                <>
+                  <ReactMarkdown className="markdown">
+                    {favorite.markdown}
+                  </ReactMarkdown>
+                  <p>Food Category: {favorite.foodCategorie}</p>
+                </>
+              )}
+            </div>
+          ))}
+        </>
+      )
+    );
+  };
+
   return (
     <div className="m-10">
-      {user ? (
-        favorites && (
-          <>
-            {favorites.map((favorite) => (
-              <div
-                key={favorite._id}
-                className="max-w-md mx-auto bg-gray-200 p-4 mt-4 rounded"
-              >
-                <div
-                  className="cursor-pointer flex items-center justify-between mb-2"
-                  onClick={() => toggleShowDetails(favorite._id)}
-                >
-                  <p className="text-xl font-bold text-orange-500">
-                    {extractFirstHeader(favorite.markdown)}
-                  </p>
-                  <span className="text-gray-600">
-                    {showDetails === favorite._id ? "-" : "+"}
-                  </span>
-                  <DeleteButton
-                    recipeId={favorite._id}
-                    deleteRecipe={deleteRecipe}
-                  />
-                </div>
-                {showDetails === favorite._id && (
-                  <>
-                    <ReactMarkdown className="markdown">
-                      {favorite.markdown}
-                    </ReactMarkdown>
-                    <p>Food Category: {favorite.foodCategorie}</p>
-                  </>
-                )}
-              </div>
-            ))}
-          </>
-        )
-      ) : (
-        <p className="text-red-500">You should login first.</p>
-      )}
+      <div>
+        {user ? (
+          <div>
+            <img
+              src={user.avatar}
+              alt="Avatar"
+              className="w-40 h-40 rounded-full mb-4"
+            />
+            <p>{user.username}</p>
+            <p>{user.email}</p>
+
+            {showFavorites()}
+          </div>
+        ) : (
+          <p className="text-red-500">You should login first.</p>
+        )}
+      </div>
     </div>
   );
 };
