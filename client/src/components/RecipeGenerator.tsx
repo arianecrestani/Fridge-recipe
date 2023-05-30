@@ -9,6 +9,14 @@ export const RecipeGenerator = ({ getApiData }: RecipeGeneratorProps) => {
   const [foodGroup, setFoodGroup] = useState<string>("");
   const onSubmitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (input === "") {
+      alert("Please fill out the ingredients");
+      return;
+    }
+    if (foodGroup === "") {
+      alert("Please select the option");
+      return;
+    }
     getApiData(input, foodGroup);
     setInput("");
     setFoodGroup("");
