@@ -84,22 +84,22 @@ export const UserArea = ({}: Props) => {
   const showFavorites = () => {
     return (
       favorites && (
-        <>
+        <div className="p-10 flex-col space-y-5">
           {favorites.map(({ _id, markdown, foodCategorie }) => (
             <div
               key={_id}
-              className="max-w-md mx-auto bg-gray-200 p-4 mt-4 rounded flex"
+              className="bg-gray-200 rounded p-4 max-w-md "
             >
               <div
-                className="cursor-pointer flex items-center"
+                className=" cursor-pointer flex items-center max-w-md"
                 onClick={() => toggleShowDetails(_id)}
               >
-                <span className="text-gray-600 p-2">
+                <span className="text-gray-600 mr-6">
                   {showDetails === _id ? "-" : "+"}
                 </span>
 
                 <DeleteButton recipeId={_id} deleteRecipe={deleteRecipe} />
-                <p className="p-4 text-xl font-bold text-orange-500">
+                <p className=" p-4 text-xl font-bold text-orange-500">
                   {extractFirstHeader(markdown)}
                 </p>
               </div>
@@ -111,29 +111,29 @@ export const UserArea = ({}: Props) => {
               )}
             </div>
           ))}
-        </>
+        </div>
       )
     );
   };
 
   return (
     <div className="m-10 flex justify-center">
-      <div className="flex">
+      <div className="flex  ">
         {user ? (
-          <div className="flex items-center m-10">
+          <div className="flex m-6">
             <div>
               <img
                 src={user.avatar}
                 alt="Avatar"
-                className="w-60 h-60 rounded-full mb-4"
+                className="w-40 h-40 rounded-full m-10"
               />
-              <div className="ml-4">
+              <div className="ml-14">
                 <p className="text-xl font-bold">{user.username}</p>
                 <p className="text-gray-500">{user.email}</p>
               </div>
             </div>
-            <div className="ml-24">
-              <h2 className="text-2xl font-bold mb-4">Favorites</h2>
+            <div className="ml-18">
+            
               {showFavorites()}
             </div>
           </div>
