@@ -88,28 +88,24 @@ export const UserArea = ({}: Props) => {
           {favorites.map(({ _id, markdown, foodCategorie }) => (
             <div
               key={_id}
-              className="max-w-md mx-auto bg-gray-200 p-4 mt-4 rounded"
+              className="max-w-md mx-auto bg-gray-200 p-4 mt-4 rounded flex"
             >
               <div
-                className="cursor-pointer flex items-center justify-between mb-2"
+                className="cursor-pointer flex items-center"
                 onClick={() => toggleShowDetails(_id)}
               >
-                <p className="text-xl font-bold text-orange-500">
-                  {extractFirstHeader(markdown)}
-                </p>
-                <span className="text-gray-600">
+                <span className="text-gray-600 p-2">
                   {showDetails === _id ? "-" : "+"}
                 </span>
-                <DeleteButton
-                  recipeId={_id}
-                  deleteRecipe={deleteRecipe}
-                />
+
+                <DeleteButton recipeId={_id} deleteRecipe={deleteRecipe} />
+                <p className="p-4 text-xl font-bold text-orange-500">
+                  {extractFirstHeader(markdown)}
+                </p>
               </div>
               {showDetails === _id && (
                 <>
-                  <ReactMarkdown className="markdown">
-                    {markdown}
-                  </ReactMarkdown>
+                  <ReactMarkdown className="markdown">{markdown}</ReactMarkdown>
                   <p>Food Category: {foodCategorie}</p>
                 </>
               )}
@@ -121,22 +117,28 @@ export const UserArea = ({}: Props) => {
   };
 
   return (
-    <div className="m-10">
-      <div>
+    <div className="m-10 flex justify-center">
+      <div className="flex">
         {user ? (
-          <div>
-            <img
-              src={user.avatar}
-              alt="Avatar"
-              className="w-40 h-40 rounded-full mb-4"
-            />
-            <p>{user.username}</p>
-            <p>{user.email}</p>
-
-            {showFavorites()}
+          <div className="flex items-center m-10">
+            <div>
+              <img
+                src={user.avatar}
+                alt="Avatar"
+                className="w-60 h-60 rounded-full mb-4"
+              />
+              <div className="ml-4">
+                <p className="text-xl font-bold">{user.username}</p>
+                <p className="text-gray-500">{user.email}</p>
+              </div>
+            </div>
+            <div className="ml-24">
+              <h2 className="text-2xl font-bold mb-4">Favorites</h2>
+              {showFavorites()}
+            </div>
           </div>
         ) : (
-          <p className="text-red-500">You should login first.</p>
+          <p className="text-orange-500">You should login first.</p>
         )}
       </div>
     </div>

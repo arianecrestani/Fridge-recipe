@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../contexts/AuthContext";
 import { useContext } from "react";
@@ -16,11 +16,13 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
 }) => {
   const { user, login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const saveFavorite = async () => {
     if (!user) {
       navigate("/login");
     } else {
+
       const favoriteUrl = `http://localhost:9000/api/users/favorites`;
 
       const myHeaders = new Headers();
@@ -40,7 +42,7 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
         headers: myHeaders,
         body: urlencoded,
       };
-
+    
       try {
         const response = await fetch(favoriteUrl, requestOptions);
         const result = await response.json();
@@ -48,15 +50,17 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
       } catch (error) {
         console.log(error);
       }
+      setIsFavorite(!isFavorite);
     }
   };
   return (
     <FontAwesomeIcon
       onClick={saveFavorite}
       icon={faHeart}
-      className="p-2"
+      className={`p-2 ${isFavorite ? "text-orange-500" : "text-gray-500"}`}
     />
   );
 };
+
 //If you are currently receiving an array of recipe IDs instead of the complete recipe data,
 //you will need to make an additional API request to fetch the complete recipe information for each ID.
