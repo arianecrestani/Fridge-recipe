@@ -9,12 +9,14 @@ interface Props {
 }
 
 export const DeleteButton = ({ recipeId, deleteRecipe }: Props) => {
-
   return (
     <FontAwesomeIcon
       icon={faTrash}
       className="text-gray-700 hover:text-orange-500 cursor-pointer"
-      onClick={() => deleteRecipe(recipeId)}
+      onClick={(e) => {
+        e.stopPropagation();
+        deleteRecipe(recipeId);
+      }}
     />
   );
 };
