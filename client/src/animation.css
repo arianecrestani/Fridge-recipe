@@ -2,7 +2,7 @@
   /* Add this line to make the border-right white */
   border-right: 0.1em solid white;
   /* Add this line to make the border-right blink */
-  animation: blink 0.75s step-end infinite;
+  animation: blink 2.00s step-end infinite;
 }
 
 /* Define the blink animation */

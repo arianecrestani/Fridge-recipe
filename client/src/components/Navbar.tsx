@@ -7,7 +7,7 @@ type Props = {};
 export const Navbar = (props: Props) => {
   const { user, logout } = useContext(AuthContext);
   return (
-    <div className="flex items-center bg-orange-400 py-2 px-4">
+    <div className="flex items-center bg-orange-400 py-2 px-4 justify-between">
       <div className="m-2">
         <Link className="text-white" to="/">
           Home
@@ -15,21 +15,23 @@ export const Navbar = (props: Props) => {
       </div>
       <div>
         {user ? (
-          <div className="flex items-center">
-            <p className="text-white mr-4">User logged in!</p>
+          <div className="flex items-center space-x-4">
+            <div className=" flex ">
+              <Link to="/user" className="text-white">
+                UserArea
+              </Link>
+            </div>
+            <p className="text-white mr-36">User logged in!</p>
+
             <button
-              className="bg-white text-orange-400 rounded-lg py-2 px-4"
+              className="bg-white text-orange-400 rounded-lg p-2 px-4"
               onClick={logout}
             >
               Logout
             </button>
-            <div className="mr-4 flex p-4">
-            <Link  to="/user" className="text-white">UserArea</Link>
-            </div>
           </div>
-       
         ) : (
-          <div className="flex">
+          <div className="flex space-x-4">
             <div className="mr-4">
               <Link className="text-white" to="/login">
                 Login

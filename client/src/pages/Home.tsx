@@ -56,8 +56,7 @@ export const Home: React.FC<Props> = () => {
     const response = await fetch(testUrl, requestOptions);
     const result = await response.json();
     console.log(result);
-    setMarkdown(result.choices[0].text);
-    setSubmitted(true);
+    fetchAllRecipes();
   };
 
   function extractFirstHeader(markdown: string): React.ReactNode {
@@ -76,7 +75,7 @@ export const Home: React.FC<Props> = () => {
   }, [Home]);
 
   return (
-    <div className="container flex w-full">
+    <div className="container m-12 flex w-full">
       <RecipeGenerator getApiData={getApiData} />
       {/* {markdown && (
             <>
@@ -87,9 +86,9 @@ export const Home: React.FC<Props> = () => {
             </>
           )} */}
       {recipes && (
-        <div className="p-10 flex-col space-y-5">
+        <div className="p-10 flex-col space-y-5 mr-16">
           {recipes.map(({ _id, markdown, foodCategorie }) => (
-            <div key={_id} className="bg-gray-200 rounded p-5">
+            <div key={_id} className="bg-gray-200 rounded p-5 max-w-md">
               <div
                 className="cursor-pointer flex items-center"
                 onClick={() => toggleShowDetails(_id)}

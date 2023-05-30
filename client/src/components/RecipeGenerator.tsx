@@ -11,6 +11,7 @@ export const RecipeGenerator = ({ getApiData }: RecipeGeneratorProps) => {
     e.preventDefault();
     getApiData(input, foodGroup);
     setInput("");
+    setFoodGroup("");
   };
 
   return (
