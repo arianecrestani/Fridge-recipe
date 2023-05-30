@@ -1,4 +1,4 @@
-import MarkdownModel from "../models/recipeModels.js";
+import RecipeModel from "../models/recipeModels.js";
 import openAiConfig from "../config/openAiConfig.js";
 import HomeRecipeModel from "../models/homeRecipesModels.js";
 
@@ -27,7 +27,6 @@ const getRecipes = async (request, response) => {
   try {
     const recipes = await HomeRecipeModel.find();
 
-
     response.status(200).json(recipes);
   } catch (e) {
     response.status(500).json({ error: "something went wrong.." });
@@ -39,7 +38,7 @@ const getRecipesForLoggedUser = async (request, response) => {
   const userId = request.user._id;
 
   try {
-    const recipes = await MarkdownModel.where({ author: userId });
+    const recipes = await RecipeModel.where({ author: userId });
 
     if (!recipes) {
       return response.status(404).json({ error: "Recipe not found" });

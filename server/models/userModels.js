@@ -1,5 +1,4 @@
 
-//The models contain all the schema files and their related validation functions.
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({

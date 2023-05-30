@@ -14,7 +14,7 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
   markdown,
   foodCategorie,
 }) => {
-  const { user, login } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -62,5 +62,3 @@ export const SaveFavorites: FunctionComponent<SaveFavoriteButtonProps> = ({
   );
 };
 
-//If you are currently receiving an array of recipe IDs instead of the complete recipe data,
-//you will need to make an additional API request to fetch the complete recipe information for each ID.

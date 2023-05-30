@@ -4,13 +4,6 @@ import { ShowFavorites } from "../components/UserInfo";
 
 interface Props {}
 
-interface Favorite {
-  _id: string;
-  markdown: string;
-  author: string;
-  foodCategorie: string;
-  __v: number;
-}
 
 export const UserArea = ({}: Props) => {
   const { user } = useContext(AuthContext);

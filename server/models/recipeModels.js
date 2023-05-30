@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-const markdownSchema = new mongoose.Schema (
+const recipeSchema = new mongoose.Schema (
   {
     markdown:{ type: String, required: true },
     author: { type: mongoose.Types.ObjectId, ref: "Recipe",  required: true },
     foodCategorie: { type: String, required: true },
   }, { timestamps: true }
 )
-const MarkdownModel = mongoose.model("Recipe", markdownSchema);
+const RecipeModel = mongoose.model("Recipe", recipeSchema);
 
-export default MarkdownModel
+export default RecipeModel

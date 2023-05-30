@@ -4,7 +4,6 @@ import { generateToken } from "../utils/jwt.js";
 import { imageUpload } from "../utils/imageUpload.js";
 import UserModel from "../models/userModels.js";
 import RecipeModel from "../models/recipeModels.js";
-import MarkdownModel from "../models/recipeModels.js";
 
 const removeFavorite = async (req, res) => {
   const userId = req.user._id;
@@ -78,11 +77,10 @@ const createUser = async (request, response) => {
 };
 
 const addFavorite = async (req, res) => {
-  // Get the user id and the recipe from the request
+
   const userId = req.user._id;
   const { recipe, foodCategorie } = req.body;
 
-  // Log the recipe and the request for debugging
   console.log("Recipe params:", recipe);
   console.log("Params: ", req);
 
@@ -90,7 +88,7 @@ const addFavorite = async (req, res) => {
     if (!req.user) {
       return res.status(404).json({ error: "User not found" });
     }
-    const markdownRecipe = new MarkdownModel({
+    const markdownRecipe = new RecipeModel({
       markdown: recipe,
       author: userId,
       foodCategorie: foodCategorie,
@@ -113,7 +111,6 @@ const addFavorite = async (req, res) => {
       newRecipe: savedRecipe,
     });
   } catch (e) {
-    // If there is an error, log it and send a 500 error
     console.log(e);
     res
       .status(500)

@@ -84,7 +84,7 @@ export const Home: React.FC<Props> = () => {
       {loading ? (
         <div className="flex justify-center items-center">
           <div className="spinner"></div>
-          <h2 className="text-orange-500"> The Recipe is comming baby...</h2>
+          <h2 className="text-orange-500"> The Recipe is comming Baby...</h2>
         </div>
       ) : (
         <div className="p-10 flex-col space-y-5 mr-16">

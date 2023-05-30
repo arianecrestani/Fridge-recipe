@@ -29,14 +29,14 @@ export const RecipeGenerator = ({ getApiData }: RecipeGeneratorProps) => {
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
             setInput(e.target.value)
           }
-          className="border rounded-lg w-full p-5 resize-none"
+          className="border rounded-lg w-full p-5 resize-none outline-none"
         ></textarea>
         <select
           value={foodGroup}
           onChange={(e: ChangeEvent<HTMLSelectElement>) =>
             setFoodGroup(e.target.value)
           }
-          className="border rounded-lg p-2  w-full"
+          className="border outline-none rounded-lg p-2 w-full"
         >
           <option value="">Select a category</option>
           <option value="healthy">Healthy</option>

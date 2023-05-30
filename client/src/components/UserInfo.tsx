@@ -79,7 +79,7 @@ export const ShowFavorites = () => {
 
   return (
     favorites && (
-      <div className="p-10 flex-col space-y-5">
+      <div className=" flex-col space-y-5">
         {favorites.map(({ _id, markdown, foodCategorie }) => (
           <div key={_id} className="bg-gray-200 rounded p-4 max-w-md ">
             <div

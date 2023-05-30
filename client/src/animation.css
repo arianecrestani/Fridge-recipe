@@ -1,18 +1,15 @@
 .my-element span {
-  /* Add this line to make the border-right white */
   border-right: 0.1em solid white;
-  /* Add this line to make the border-right blink */
-  animation: blink 2.00s step-end infinite;
+
+  animation: blink 2s step-end infinite;
 }
 
-/* Define the blink animation */
 @keyframes blink {
-  /* Start with visible border-right */
   from,
   to {
     border-color: transparent;
   }
-  /* End with invisible border-right */
+
   50% {
     border-color: white;
   }

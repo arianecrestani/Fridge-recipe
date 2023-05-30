@@ -16,7 +16,7 @@ export const Navbar = (props: Props) => {
       <div>
         {user ? (
           <div className="flex items-center space-x-4">
-            <div className=" flex ">
+            <div className="flex">
               <Link to="/user" className="text-white">
                 UserArea
               </Link>
