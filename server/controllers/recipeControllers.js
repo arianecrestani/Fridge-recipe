@@ -9,7 +9,6 @@ const sendPrompt = async (request, response) => {
     const newResult = await openAiConfig(
       `ingredients:${request.body.ingredients},foodGroup: ${request.body.foodGroup}`
     );
-    // const markdown = newResult.choices[0].text;
 
     const markdownRecipe = new HomeRecipeModel({
       markdown: newResult.choices[0].text,

@@ -14,9 +14,8 @@ type Recipe = {
 
 export const Home: React.FC<Props> = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [markdown, setMarkdown] = useState<string>("");
   const [showDetails, setShowDetails] = useState<string>("");
-  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const toggleShowDetails = (id: string) => {
     if (showDetails === id) {
@@ -27,11 +26,13 @@ export const Home: React.FC<Props> = () => {
   };
 
   const fetchAllRecipes = async () => {
+
     const testUrl = "http://localhost:9000/api/recipes/homerecipes";
     const response = await fetch(testUrl);
     const data = await response.json();
     console.log(data);
     setRecipes(data);
+
   };
 
   useEffect(() => {
@@ -39,6 +40,7 @@ export const Home: React.FC<Props> = () => {
   }, []);
 
   const getApiData = async (input: string, foodGroup: string) => {
+    setLoading(true);
     const testUrl = `http://localhost:9000/api/recipes/recipe`;
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -56,6 +58,7 @@ export const Home: React.FC<Props> = () => {
     const response = await fetch(testUrl, requestOptions);
     const result = await response.json();
     console.log(result);
+    setLoading(false);
     fetchAllRecipes();
   };
 
@@ -75,17 +78,15 @@ export const Home: React.FC<Props> = () => {
   }, [Home]);
 
   return (
-    <div className="container m-12 flex w-full">
+    <div className="container flex w-full">
       <RecipeGenerator getApiData={getApiData} />
-      {/* {markdown && (
-            <>
-              <div className=" p-10 m-12 bg-gray-100 p-4 shadow-lg rounded-lg border border-gray-300 transform rotate-5 inline-block max-w-[80%]">
-                <SaveFavorites markdown={markdown} foodCategorie={foodGroup} />
-                <ReactMarkdown className="markdown">{markdown}</ReactMarkdown>
-              </div>
-            </>
-          )} */}
-      {recipes && (
+
+      {loading ? (
+        <div className="flex justify-center items-center">
+          <div className="spinner"></div>
+          <h2 className="text-orange-500"> The Recipe is comming baby...</h2>
+        </div>
+      ) : (
         <div className="p-10 flex-col space-y-5 mr-16">
           {recipes.map(({ _id, markdown, foodCategorie }) => (
             <div key={_id} className="bg-gray-200 rounded p-5 max-w-md">
@@ -107,7 +108,9 @@ export const Home: React.FC<Props> = () => {
 
               {showDetails === _id && (
                 <>
-                  <ReactMarkdown className="markdown">{markdown}</ReactMarkdown>
+                  <ReactMarkdown className="markdown">
+                    {markdown}
+                  </ReactMarkdown>
                   <p>Food Category: {foodCategorie}</p>
                 </>
               )}
@@ -118,3 +121,4 @@ export const Home: React.FC<Props> = () => {
     </div>
   );
 };
+

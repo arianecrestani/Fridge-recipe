@@ -6,13 +6,6 @@ import UserModel from "../models/userModels.js";
 import RecipeModel from "../models/recipeModels.js";
 import MarkdownModel from "../models/recipeModels.js";
 
-
-const testingRoute = (request, response) => {
-  console.log("request.body", request.body);
-  console.log("request.body", request);
-  response.status(200).json("testing users route..");
-};
-
 const removeFavorite = async (req, res) => {
   const userId = req.user._id;
 
@@ -83,7 +76,6 @@ const createUser = async (request, response) => {
     }
   }
 };
-
 
 const addFavorite = async (req, res) => {
   // Get the user id and the recipe from the request
@@ -166,7 +158,7 @@ const login = async (req, res) => {
 };
 
 export {
-  testingRoute,
+
   createUser,
   login,
   getActiveUser,

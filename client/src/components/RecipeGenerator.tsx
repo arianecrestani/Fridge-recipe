@@ -29,7 +29,7 @@ export const RecipeGenerator = ({ getApiData }: RecipeGeneratorProps) => {
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
             setInput(e.target.value)
           }
-          className="border rounded-lg w-full p-5"
+          className="border rounded-lg w-full p-5 resize-none"
         ></textarea>
         <select
           value={foodGroup}
