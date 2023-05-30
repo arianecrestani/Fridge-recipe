@@ -49,6 +49,14 @@ const Register = (props: Props) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (
+      formData.email === "" ||
+      formData.username === "" ||
+      formData.password === ""
+    ) {
+      alert("please fill out first");
+      return;
+    }
     setLoading(true);
     const submitData = new FormData();
     submitData.append("email", formData.email);
