@@ -144,6 +144,9 @@ const login = async (req, res) => {
           user: {
             _id: existingUser._id,
             username: existingUser.username,
+            email: existingUser.email,
+            recipes:existingUser.recipes,
+            avatar: existingUser.avatar
           },
         });
       }
