@@ -4,15 +4,14 @@ import { ShowFavorites } from "../components/UserInfo";
 
 interface Props {}
 
-
 export const UserArea = ({}: Props) => {
   const { user } = useContext(AuthContext);
 
   return (
-    <div className="m-10 flex justify-center">
-      <div className="flex  ">
-        {user ? (
-          <div className="flex m-6">
+    <div className="m-24 flex justify-center">
+      <div className="flex ">
+        {user && (
+          <div className="flex gap-24">
             <div>
               <img
                 src={user.avatar}
@@ -24,12 +23,10 @@ export const UserArea = ({}: Props) => {
                 <p className="text-gray-500">{user.email}</p>
               </div>
             </div>
-            <div className="ml-18">
+            <div className="flex">
               <ShowFavorites />
             </div>
           </div>
-        ) : (
-          <p className="text-orange-500">You should login first.</p>
         )}
       </div>
     </div>

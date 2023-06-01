@@ -78,7 +78,7 @@ export const Home: React.FC<Props> = () => {
   }, [Home]);
 
   return (
-    <div className="container flex w-full">
+    <div className="container flex w-full justify-center">
       <RecipeGenerator getApiData={getApiData} />
 
       {loading ? (
@@ -87,7 +87,7 @@ export const Home: React.FC<Props> = () => {
           <h2 className="text-orange-500">  The Recipe is coming Baby...</h2>
         </div>
       ) : (
-        <div className="p-10 flex-col space-y-5 mr-16">
+        <div className="p-10 flex-col space-y-5 mr-16 max-w-md">
           {recipes.map(({ _id, markdown, foodCategorie }) => (
             <div key={_id} className="bg-gray-200 rounded p-5 max-w-md">
               <div
