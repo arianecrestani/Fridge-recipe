@@ -42,7 +42,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   console.log("active user : ", user);
 
-  const [error, setError] = useState<Error | null>(null);
+  const [error] = useState<Error | null>(null);
 
   const login = async (email: string, password: string) => {
 
@@ -77,7 +77,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error) {
       console.log(error);
-      // setError(error); //I still have to figure out how to type the unknown fetch results
+      
       alert("Something went wrong - check console for error");
     }
   };
@@ -116,7 +116,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     checkForToken();
-  }, []);
+  });
 
   return (
     <AuthContext.Provider value={{ user, login, logout, error }}>
@@ -125,6 +125,3 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// return (
-//   <div>AuthContext</div>
-// )

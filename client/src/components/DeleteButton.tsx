@@ -1,7 +1,7 @@
-// DeleteButton.tsx
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+// import { useState } from "react";
 
 interface Props {
   recipeId: string;

@@ -3,7 +3,7 @@ import openAiConfig from "../config/openAiConfig.js";
 import HomeRecipeModel from "../models/homeRecipesModels.js";
 
 const sendPrompt = async (request, response) => {
-  // const { recipe, foodCategorie } = req.body;
+
   console.log(request.body);
   try {
     const newResult = await openAiConfig(
@@ -39,7 +39,6 @@ const getRecipesForLoggedUser = async (request, response) => {
 
   try {
     const recipes = await RecipeModel.where({ author: userId });
-
     if (!recipes) {
       return response.status(404).json({ error: "Recipe not found" });
     }

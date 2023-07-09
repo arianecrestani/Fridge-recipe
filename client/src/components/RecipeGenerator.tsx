@@ -24,7 +24,7 @@ export const RecipeGenerator = ({ getApiData }: RecipeGeneratorProps) => {
 
   return (
     <div className="flex-col p-10 max-w-[50%]">
-      <h1 className="leading-normal my-element opacity-0 my-element opacity-0 text-3xl text-orange-500 mb-10">
+      <h1 className="leading-normal my-element my-element opacity-0 text-3xl text-orange-500 mb-10">
         Which ingredients do you have in your fridge?
       </h1>
       <form

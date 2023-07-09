@@ -5,6 +5,26 @@ import { imageUpload } from "../utils/imageUpload.js";
 import UserModel from "../models/userModels.js";
 import RecipeModel from "../models/recipeModels.js";
 
+const updateUser = async (req, res) => {
+  const userId = req.user._id;
+
+  try {
+    const updatedUser = await UserModel.findByIdAndUpdate(userId, req.body, {
+      new: true,
+    });
+
+    res.status(200).json({
+      msg: "User updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Something went wrong with updating the user",
+    });
+  }
+};
+
 const removeFavorite = async (req, res) => {
   const userId = req.user._id;
 
@@ -158,7 +178,7 @@ const login = async (req, res) => {
 };
 
 export {
-
+  updateUser,
   createUser,
   login,
   getActiveUser,

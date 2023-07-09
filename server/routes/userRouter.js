@@ -1,4 +1,4 @@
-//The routes contain all routes that are created by Express.
+
 import express from "express";
 import { multerUpload } from "../middlewares/multer.js";
 import {
@@ -19,6 +19,7 @@ userRouter.get("/active", jwtAuth, getActiveUser);
 userRouter.post("/favorites", jwtAuth, addFavorite);
 userRouter.get("/favorites", jwtAuth, getRecipesForLoggedUser);
 userRouter.put("/updates/:recipeId", jwtAuth, removeFavorite);
+
 
 userRouter.post("/new", multerUpload.single("avatar"), createUser);
 userRouter.post("/login", login);
