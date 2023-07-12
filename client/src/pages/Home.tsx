@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { SaveFavorites } from "../components/SaveFavorites";
-import gsap from "gsap";
+// import gsap from "gsap";
 import { RecipeGenerator } from "../components/RecipeGenerator";
 import { serverURL } from "../utils/serverUrl";
 
@@ -75,9 +75,9 @@ export const Home: React.FC<Props> = () => {
     }
   }
 
-  useEffect(() => {
-    gsap.to(".my-element", { opacity: 1, duration: 2, ease: "linear" });
-  }, [Home]);
+  // useEffect(() => {
+  //   gsap.to(".my-element", { opacity: 1, duration: 2, ease: "linear" });
+  // }, [Home]);
 
   return (
     <div className="flex w-full justify-center">
