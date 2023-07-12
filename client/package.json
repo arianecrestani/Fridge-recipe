@@ -13,6 +13,7 @@
     "@types/react": "^18.0.38",
     "@types/react-dom": "^18.0.11",
     "animate.css": "^4.1.1",
+    "gsap": "^3.12.2",
     "postcss": "^8.4.23",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
