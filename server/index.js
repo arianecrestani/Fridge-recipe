@@ -39,10 +39,10 @@ const connectMongoose = () => {
 const connectRoutes = () => {
   app.use("/api/users", userRouter);
   app.use("/api/recipes", recipeRouter);
-
 };
 
-setMiddlewares();
-connectMongoose();
-connectRoutes();
-
+(async function controller() {
+  setMiddlewares();
+  await connectMongoose();
+  connectRoutes();
+})();

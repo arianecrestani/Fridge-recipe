@@ -1,7 +1,7 @@
-import React, { useEffect, useState  } from "react";
+import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { SaveFavorites } from "../components/SaveFavorites";
-// import gsap from "gsap";
+import gsap from "gsap";
 import { RecipeGenerator } from "../components/RecipeGenerator";
 
 type Props = {};
@@ -26,13 +26,13 @@ export const Home: React.FC<Props> = () => {
   };
 
   const fetchAllRecipes = async () => {
-
-    const testUrl = "http://localhost:9000/api/recipes/homerecipes";
+    // const testUrl = "http://localhost:9000/api/recipes/homerecipes";
+    const testUrl =
+      "https://fridge-recipe-server.vercel.app/api/recipes/homerecipes";
     const response = await fetch(testUrl);
     const data = await response.json();
     console.log(data);
     setRecipes(data);
-
   };
 
   useEffect(() => {
@@ -73,9 +73,9 @@ export const Home: React.FC<Props> = () => {
     }
   }
 
-  // useEffect(() => {
-  //   gsap.to(".my-element", { opacity: 1, duration: 2, ease: "linear" });
-  // }, [Home]);
+  useEffect(() => {
+    gsap.to(".my-element", { opacity: 1, duration: 2, ease: "linear" });
+  }, [Home]);
 
   return (
     <div className="flex w-full justify-center">
@@ -84,7 +84,7 @@ export const Home: React.FC<Props> = () => {
       {loading ? (
         <div className="flex justify-center items-center">
           <div className="spinner"></div>
-          <h2 className="text-orange-500">  The Recipe is coming Baby...</h2>
+          <h2 className="text-orange-500"> The Recipe is coming Baby...</h2>
         </div>
       ) : (
         <div className="p-10 flex-col space-y-5 mr-16 max-w-md">
@@ -108,9 +108,7 @@ export const Home: React.FC<Props> = () => {
 
               {showDetails === _id && (
                 <>
-                  <ReactMarkdown className="markdown">
-                    {markdown}
-                  </ReactMarkdown>
+                  <ReactMarkdown className="markdown">{markdown}</ReactMarkdown>
                   <p>Food Category: {foodCategorie}</p>
                 </>
               )}
@@ -121,4 +119,3 @@ export const Home: React.FC<Props> = () => {
     </div>
   );
 };
-
