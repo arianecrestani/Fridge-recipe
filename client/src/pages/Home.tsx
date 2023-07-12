@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown";
 import { SaveFavorites } from "../components/SaveFavorites";
 import gsap from "gsap";
 import { RecipeGenerator } from "../components/RecipeGenerator";
+import { serverURL } from "../utils/serverUrl";
 
 type Props = {};
 
@@ -27,9 +28,10 @@ export const Home: React.FC<Props> = () => {
 
   const fetchAllRecipes = async () => {
     // const testUrl = "http://localhost:9000/api/recipes/homerecipes";
-    const testUrl =
-      "https://fridge-recipe-server.vercel.app/api/recipes/homerecipes";
-    const response = await fetch(testUrl);
+    // const testUrl =
+    //   "https://fridge-recipe-server.vercel.app/api/recipes/homerecipes";
+    console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+    const response = await fetch(`${serverURL}/api/recipes/homerecipes`);
     const data = await response.json();
     console.log(data);
     setRecipes(data);
