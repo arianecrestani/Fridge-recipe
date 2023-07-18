@@ -5,26 +5,6 @@ import { imageUpload } from "../utils/imageUpload.js";
 import UserModel from "../models/userModels.js";
 import RecipeModel from "../models/recipeModels.js";
 
-const updateUser = async (req, res) => {
-  const userId = req.user._id;
-
-  try {
-    const updatedUser = await UserModel.findByIdAndUpdate(userId, req.body, {
-      new: true,
-    });
-
-    res.status(200).json({
-      msg: "User updated successfully",
-      user: updatedUser,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      error: "Something went wrong with updating the user",
-    });
-  }
-};
-
 const removeFavorite = async (req, res) => {
   const userId = req.user._id;
 
@@ -97,7 +77,6 @@ const createUser = async (request, response) => {
 };
 
 const addFavorite = async (req, res) => {
-
   const userId = req.user._id;
   const { recipe, foodCategorie } = req.body;
 
@@ -137,6 +116,53 @@ const addFavorite = async (req, res) => {
       .json({ error: "Something went wrong while updating favorites.", e });
   }
 };
+const updatePassword = async (password) => {
+  const encryptedPassword = await encryptPassword(password);
+  return encryptedPassword;
+};
+
+const updateAvatar = async (file) => {
+  const avatar = await imageUpload(file, "avatars");
+  return avatar;
+};
+const updateUser = async (req, res) => {
+  try {
+    let updatedData = { ...req.body };
+    const userIdUpdate = req.params.id;
+    console.log(userIdUpdate, "hello useidupdate");
+
+    // if (req.user._id.toString() !== userIdUpdate.toString()) {
+    //   return res.status(403).json({
+    //     error: "that's not your user",
+    //   });
+    // }
+    // const currentUser = await UserModel.findById(userIdUpdate);
+    // console.log("test for current usre", currentUser);
+    // if (req.body.password && req.body.password !== currentUser.password) {
+    //   updatedData.password = await updatePassword(req.body.password);
+    // }
+    updatedData.password = await updatePassword(req.body.password);
+
+    updatedData.avatar = await updateAvatar(req.file);
+
+    // if (req.file && req.file !== currentUser.avatar) {
+    //   updatedData.avatar = await updateAvatar(req.file);
+    // }
+    // if (req.body.username && req.body.email) {
+    const updateUser = await UserModel.findByIdAndUpdate(
+      userIdUpdate,
+      updatedData,
+      { new: true, runValidators: true }
+    );
+    res.status(200).json(updateUser);
+    // }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Something went wrong with updating the user",
+    });
+  }
+};
 
 const login = async (req, res) => {
   try {
@@ -165,8 +191,8 @@ const login = async (req, res) => {
             _id: existingUser._id,
             username: existingUser.username,
             email: existingUser.email,
-            recipes:existingUser.recipes,
-            avatar: existingUser.avatar
+            recipes: existingUser.recipes,
+            avatar: existingUser.avatar,
           },
         });
       }

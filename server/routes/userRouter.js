@@ -1,14 +1,12 @@
-
 import express from "express";
 import { multerUpload } from "../middlewares/multer.js";
 import {
-
+  updateUser,
   createUser,
   login,
   getActiveUser,
   addFavorite,
-  removeFavorite
-
+  removeFavorite,
 } from "../controllers/userControllers.js";
 import { getRecipesForLoggedUser } from "../controllers/recipeControllers.js";
 import jwtAuth from "../middlewares/jwtAuth.js";
@@ -19,7 +17,12 @@ userRouter.get("/active", jwtAuth, getActiveUser);
 userRouter.post("/favorites", jwtAuth, addFavorite);
 userRouter.get("/favorites", jwtAuth, getRecipesForLoggedUser);
 userRouter.put("/updates/:recipeId", jwtAuth, removeFavorite);
-
+userRouter.put(
+  "/update/:id",
+  multerUpload.single("avatar"),
+  jwtAuth,
+  updateUser
+);
 
 userRouter.post("/new", multerUpload.single("avatar"), createUser);
 userRouter.post("/login", login);
