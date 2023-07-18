@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 export interface User {
   avatar: string | undefined;
@@ -70,7 +76,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
           localStorage.setItem("token", result.token);
           localStorage.setItem("my name", "Doron");
         }
-        console.log(result);
+        console.log("this is the result of the login fucntion", result);
       } else {
         const result = (await response.json()) as fetchFailed;
         alert(result.error);
@@ -87,7 +93,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("token");
   };
 
-  const checkForToken = () => {
+  const checkForToken = useCallback(() => {
     const token = localStorage.getItem("token");
     if (token) {
       console.log("There is a token");
@@ -96,7 +102,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       console.log("There is no token");
       setUser(null);
     }
-  };
+  }, []);
   const fetchActiveUser = async (token: string) => {
     const myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
@@ -119,7 +125,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     checkForToken();
-  });
+  }, [checkForToken]);
 
   return (
     <AuthContext.Provider value={{ user, login, logout, error }}>
