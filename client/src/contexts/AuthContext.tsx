@@ -25,6 +25,7 @@ interface fetchFailed {
 
 interface AuthContextType {
   user: null | User;
+  setUser: (user: User | null) => void;
   error: Error | null;
   login(email: string, password: string): void;
   logout(): void;
@@ -33,11 +34,15 @@ interface AuthContextType {
 const initialAuth: AuthContextType = {
   user: null,
   error: null,
+
   login: () => {
     throw new Error("login not implemented.");
   },
   logout: () => {
     throw new Error("logout not implimented.");
+  },
+  setUser: function (user: User | null): void {
+    throw new Error("Function not implemented.");
   },
 };
 
@@ -128,7 +133,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   }, [checkForToken]);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, error }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout, error }}>
       {children}
     </AuthContext.Provider>
   );

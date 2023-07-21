@@ -95,7 +95,6 @@ const addFavorite = async (req, res) => {
 
     console.log("Recipe: ", markdownRecipe);
 
-    // Save the recipe to the database
     const savedRecipe = await markdownRecipe.save();
 
     await UserModel.findByIdAndUpdate(
@@ -131,35 +130,60 @@ const updateUser = async (req, res) => {
     const userIdUpdate = req.params.id;
     console.log(userIdUpdate, "hello useidupdate");
 
-    // if (req.user._id.toString() !== userIdUpdate.toString()) {
-    //   return res.status(403).json({
-    //     error: "that's not your user",
-    //   });
-    // }
-    // const currentUser = await UserModel.findById(userIdUpdate);
-    // console.log("test for current usre", currentUser);
-    // if (req.body.password && req.body.password !== currentUser.password) {
-    //   updatedData.password = await updatePassword(req.body.password);
-    // }
-    updatedData.password = await updatePassword(req.body.password);
+    if (req.user._id.toString() !== userIdUpdate.toString()) {
+      return res.status(403).json({
+        error: "that's not your user",
+      });
+    }
+    const currentUser = await UserModel.findById(userIdUpdate);
 
-    updatedData.avatar = await updateAvatar(req.file);
+    console.log("test for current usre", currentUser);
 
-    // if (req.file && req.file !== currentUser.avatar) {
-    //   updatedData.avatar = await updateAvatar(req.file);
+    if (req.body.password && req.body.password !== currentUser.password) {
+      updatedData.password = await updatePassword(req.body.password);
+    }
+    // else {
+    //   return res.status(200).json({ message: "you didn't inc password or didn't changed mpassword" });
     // }
+    // updatedData.password = await updatePassword(req.body.password);
+
+    // updatedData.avatar = await updateAvatar(req.file);
+
+    if (req.file && req.file !== currentUser.avatar) {
+      updatedData.avatar = await updateAvatar(req.file);
+    }
     // if (req.body.username && req.body.email) {
+
+    // Check for udates
+    let isChanged = false;
+    for (let key in updatedData) {
+      if (currentUser[key] !== updatedData[key]) {
+        isChanged = true;
+        break;
+      }
+    }
+
+    if (!isChanged) {
+      return res
+        .status(200)
+        .json({ message: "You didn't change any of the values...." });
+    }
+
     const updateUser = await UserModel.findByIdAndUpdate(
       userIdUpdate,
       updatedData,
       { new: true, runValidators: true }
     );
-    res.status(200).json(updateUser);
+    res
+      .status(200)
+      .json(
+        { message: "User has been updated", updateUser: updateUser }
+      );
     // }
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      error: "Something went wrong with updating the user",
+      message : "Something went wrong with updating the user",
     });
   }
 };
