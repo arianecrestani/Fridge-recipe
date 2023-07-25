@@ -14,7 +14,7 @@ export const UserArea = ({}: Props) => {
   return (
     <div className="m-24 flex justify-center flex-wrap">
       {user && (
-        <div className="flex border-4 border-gray-400 p-8 m-8 rounded-lg">
+        <div className="flex border-4 border-gray-400 p-8 m-8 rounded-lg ">
           <div className="flex">
             <div>
               <img
@@ -36,10 +36,11 @@ export const UserArea = ({}: Props) => {
           </div>
         </div>
       )}
-
-      {showUpdateForm && <UpdateUser />}
-      <div className="flex m-8">
-        <ShowFavorites />
+      <div className="">
+        {showUpdateForm && <UpdateUser />}
+        <div className="flex m-8">
+          <ShowFavorites />
+        </div>
       </div>
     </div>
   );
