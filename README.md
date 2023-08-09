@@ -1,4 +1,4 @@
-# Fridge-recipe
+# Fridge Recipe
 
 This project is a MERN requirement by code academy Bootcamp, built from scratch.
 
