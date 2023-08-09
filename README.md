@@ -2,7 +2,6 @@
 
 This project is a MERN requirement by code academy Bootcamp, built from scratch.
 
-
 - [x] Mongo, Express, React, Node
 
 
