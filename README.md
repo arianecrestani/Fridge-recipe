@@ -2,7 +2,7 @@
 
 This project is a MERN requirement by code academy Bootcamp, built from scratch.
 
-##Mongo ##Express ##React ##Node 
+- Mongo - Express - React - Node 
 
 I had the idea for this project to create a fridge recipe using Open ai, just filling out the input with ingredients by keywords.
 The open Ai will create a recipe on base of those ingredients. 
