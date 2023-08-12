@@ -16,7 +16,7 @@ The open Ai will create a recipe on base of those ingredients.
  - Users might create recipes by filling out ingredients by keyword, separated by a comma.
  - Users might see the values of nutrition.
  - Users might favorite their recipes for the user area.
- - users might delete their recipes in the user area.
+ - Users might delete their recipes in the user area.
 
  ![](./diagram.jpg)    
 
