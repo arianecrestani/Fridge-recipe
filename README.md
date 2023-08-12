@@ -18,5 +18,7 @@ The open Ai will create a recipe on base of those ingredients.
  - Users might favorite their recipes for the user area.
  - users might delete their recipes in the user area.
 
+    ![](./diagram.jpg)
+
 
   
